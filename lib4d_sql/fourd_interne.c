@@ -84,7 +84,9 @@ int _query(FOURD *cnx,unsigned short int id_cmd,const char *request,FOURD_RESULT
 	int len;
 	Printf("---Debut de _query\n");
 	_clear_atrr_cnx(cnx);
-
+	if(!_valid_query(cnx,request)) {
+		return 1;
+	}
 	if(result!=NULL)
 		res=result;
 	else
@@ -139,6 +141,9 @@ int _query_param(FOURD *cnx,unsigned short int id_cmd, const char *request,unsig
 	unsigned int data_len=0;
 	unsigned int size=0;
 	Printf("---Debut de _query_param\n");
+	if(!_valid_query(cnx,request)) {
+		return 1;
+	}
 	if(nbParam<=0)
 		return _query(cnx,id_cmd,request,result,image_type);
 	_clear_atrr_cnx(cnx);
@@ -793,4 +798,112 @@ void PrintData(const void *data,unsigned int size)
 	for(i=1;i<size;i++) {
 		Printf(" 0x%X",*(char *)(d+i));
 	}
+}
+int _is_multi_query(const char *request)
+{
+	int i=0;
+	int len;
+	int inCol=0;
+	int inStr=0;
+	int finFirst=0;
+	char car=0;
+	if(request==NULL){
+		return 0;
+	}
+	len=strlen(request);
+	if(len<1){
+		return 0;
+	}
+	for(i=0;i<len;i++){
+		
+		car=request[i];
+		switch(car){
+			case '[':
+				/* start of 4D object name */
+				if(!inStr){
+					if(!inCol){
+						/* printf("["); */
+						inCol=1;
+					}
+					else {
+						/* printf("_"); */
+					}
+				}else {
+					/* printf("s"); */
+				}
+				break;
+			case ']':
+				if(inStr){
+					/* printf("s"); */
+				}else if(inCol){
+					inCol=0;
+					/* printf("]"); */
+				}else {
+					if(i>1){ /* check the previous charactere */
+						if(request[i-1]==']'){
+							/* not end of colomn name */
+							inCol=1;
+							/* printf("-"); */
+						}else {
+							inCol=0;
+							/* printf("]"); */
+						}
+					}else {
+						/* printf("_");*/
+					}
+				}
+				
+				break;
+			case '\'':
+				if(!inCol){
+				/* printf("'");*/
+				if(inStr==0){
+					inStr=1;
+				}else{
+					inStr=0;
+				}
+				}else{
+					/* printf("c"); */
+				}
+				break;
+			case ';':
+				/* end of query */
+				if(!inCol && !inStr){
+					finFirst=1;
+					/* printf(";");*/
+				}else {
+					/*printf("_");*/
+				}
+				break;
+			default:
+				if(inCol){
+					/* printf("C"); */
+				}
+				else if(inStr){
+					/* printf("S"); */
+				}
+				else if(car==' '){
+					/*printf(" ");*/
+				}else{
+					if(finFirst){
+						/* printf("X"); */
+						return 1;
+					}else {
+						/* printf("*"); */
+					}
+				}
+				break;
+		}
+		
+	}
+	return 0;
+}
+int _valid_query(FOURD *cnx,const char *request)
+{
+	if(_is_multi_query(request)){
+		cnx->error_code=-5001;
+		sprintf_s(cnx->error_string,2048,"MultiQuery not supported",2048);
+		return 0;
+	}
+	return 1;
 }

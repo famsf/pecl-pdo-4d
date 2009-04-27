@@ -1,9 +1,19 @@
 /*
-   +----------------------------------------------------------------------+
-   | unknown license:                                                      |
-   +----------------------------------------------------------------------+
-   | Authors: Stephane Planquart <stephane.planquart@o4db.com>            |
-   +----------------------------------------------------------------------+
+  +----------------------------------------------------------------------+
+  | (C) Copyright 4D SAS 2009                                            |
+  +----------------------------------------------------------------------+
+  |                                                                      |
+  | This source file is subject to version 3.01 of the PHP license,      |
+  | that is bundled with this package in the file LICENSE, and is        |
+  | available through the world-wide-web at the following url:           |
+  | http://www.php.net/license/3_01.txt                                  |
+  | If you did not receive a copy of the PHP license and are unable to   |
+  | obtain it through the world-wide-web, please send a note to          |
+  | license@php.net so we can mail you a copy immediately.               |
+  +----------------------------------------------------------------------+
+  | Authors: Alexandre Morgaut <php@4d.fr>,                              |
+  |          Stephane Planquart <stephane.planquart@o4db.com>,           |
+  +----------------------------------------------------------------------+
 */
 
 /* $ Id: $ */ 
@@ -175,9 +185,13 @@ end:
 
 static int pdo_4d_set_attribute(pdo_dbh_t *dbh, long attr, zval *val TSRMLS_DC)
 {
+	pdo_4d_db_handle *H = (pdo_4d_db_handle *)dbh->driver_data;
 	switch (attr) {
 	case PDO_FOURD_ATTR_CHARSET:
 		((pdo_4d_db_handle *)dbh->driver_data)->charset = pestrdup(Z_STRVAL_P(val), dbh->is_persistent);
+		return 1;
+	case PDO_FOURD_ATTR_PREFERRED_IMAGE_TYPES:
+			fourd_set_preferred_image_types(H->server,Z_STRVAL_P(val));
 		return 1;
 	default:
 		return 0;
@@ -205,6 +219,9 @@ static int pdo_4d_get_attribute(pdo_dbh_t *dbh, long attr, zval *return_value TS
 	switch (attr) {
 		case PDO_FOURD_ATTR_CHARSET:
 			ZVAL_STRING(return_value, H->charset, 1);
+			break;
+		case PDO_FOURD_ATTR_PREFERRED_IMAGE_TYPES:
+			ZVAL_STRING(return_value, fourd_get_preferred_image_types(H->server), 1);			
 			break;
 		default:
 			return 0;	
@@ -274,6 +291,8 @@ static int pdo_4d_handle_factory(pdo_dbh_t *dbh, zval *driver_options TSRMLS_DC)
 	char *charset = NULL;
 	char *user=NULL;
 	char *pwd=NULL;
+	int timeout=0;
+	char *preferred_image_types;
 	struct pdo_data_src_parser vars[] = {
 		{ "host",       "localhost",  0 },
 		{ "port",   		"19812",			0 },
@@ -283,7 +302,9 @@ static int pdo_4d_handle_factory(pdo_dbh_t *dbh, zval *driver_options TSRMLS_DC)
 		{ "password",  	"",	0 },
 	};
 	php_pdo_parse_data_source(dbh->data_source, dbh->data_source_len, vars,6);
-	
+/*	printf("Debut du constructeur\n");
+	printf("preferred_image_types:%s\n",INI_STR("pdo_4d.preferred_image_types"));
+*/	
 		
 	H=pecalloc(1, sizeof(pdo_4d_db_handle), dbh->is_persistent);
 	
@@ -296,6 +317,18 @@ static int pdo_4d_handle_factory(pdo_dbh_t *dbh, zval *driver_options TSRMLS_DC)
 		dbh->methods = &fourd_methods;
 		return 0;	
 	}
+	/*set timeout */
+	timeout=INI_INT("pdo_4d.timeout");
+	if(timeout<=0) {
+		timeout=30;/*30 is timeout by default */
+	}
+	fourd_timeout(H->server,timeout);
+	/*set prefered image types */
+	preferred_image_types=INI_STR("pdo_4d.preferred_image_types");
+	if(preferred_image_types!=NULL && strlen(preferred_image_types)){
+		fourd_set_preferred_image_types(H->server,preferred_image_types);
+	}
+	
 	dbh->driver_data = H;
 	H->max_buffer_size = 1024*1024;
 	H->buffered = H->emulate_prepare = 1;	//review this one
@@ -325,6 +358,8 @@ static int pdo_4d_handle_factory(pdo_dbh_t *dbh, zval *driver_options TSRMLS_DC)
 		dbh->methods = &fourd_methods;
 		return 0;
 	}
+	
+
 	
 	H->attached = 1;
 

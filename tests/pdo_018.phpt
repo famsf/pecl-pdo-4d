@@ -67,11 +67,12 @@ class TestLeaf extends TestDerived
 {
 }
 
-$db->exec('CREATE TABLE classtypes(id int NOT NULL, name VARCHAR(20) NOT NULL,  PRIMARY KEY(id))');
-$db->exec('INSERT INTO classtypes VALUES(0, \'stdClass\')'); 
-$db->exec('INSERT INTO classtypes VALUES(1, \'TestBase\')'); 
-$db->exec('INSERT INTO classtypes VALUES(2, \'TestDerived\')'); 
-$db->exec('CREATE TABLE test(id int NOT NULL, classtype int, val VARCHAR(255),  PRIMARY KEY(id))');
+$db->exec('CREATE TABLE classtypes(id varchar(20), name VARCHAR(20) )');
+$db->exec('INSERT INTO classtypes VALUES(\'0\', \'stdClass\')'); 
+$db->exec('INSERT INTO classtypes VALUES(\'1\', \'TestBase\')'); 
+$db->exec('INSERT INTO classtypes VALUES(\'2\', \'TestDerived\')'); 
+$db->exec('INSERT INTO classtypes VALUES(\'4\', NULL)'); 
+$db->exec('CREATE TABLE test(id int NOT NULL PRIMARY KEY, classtype varchar(20), val VARCHAR(255))');
 
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -106,13 +107,18 @@ unset($stmt);
 
 echo "===INSERT===\n";
 $stmt = $db->prepare('INSERT INTO test VALUES(:id, :classtype, :val)');
-$stmt->bindParam(':id', $idx);
-$stmt->bindParam(':classtype', $ctype);
-$stmt->bindParam(':val', $val);
+$stmt->bindParam(':id', $idx, PDO::PARAM_INT);
+$stmt->bindParam(':classtype', $ctype, PDO::PARAM_STR);
+$stmt->bindParam(':val', $val, PDO::PARAM_STR);
 
 foreach($objs as $idx => $obj)
 {
 	$ctype = $ctypes[get_class($obj)];
+	if (is_null($ctype)) { 
+	    $ctype = "'4'"; 
+	} else {
+	    $ctype = "'$ctype'"; 
+	}
 	if (method_exists($obj, 'serialize'))
 	{
 		$val = $obj->serialize();
@@ -121,8 +127,10 @@ foreach($objs as $idx => $obj)
 	{
 		$val = '';
 	}
-	$stmt->execute();	
+	$db->query("INSERT INTO test VALUES($idx, $ctype, '$val')");
+//	$stmt->execute();	
 }
+//s	$db->query("UPDATE test SET classtype = NULL WHERE classtype = 4)");
 
 unset($stmt);
 
@@ -132,7 +140,8 @@ var_dump($db->query('SELECT test.val FROM test')->fetchAll(PDO::FETCH_COLUMN));
 echo "===FAILURE===\n";
 try
 {
-	$db->query('SELECT classtypes.name AS name, test.val AS val FROM test JOIN classtypes ON test.classtype=classtypes.id')->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_CLASSTYPE|PDO::FETCH_SERIALIZE, 'TestLeaf', array());
+//	$db->query('SELECT classtypes.name AS name, test.val AS val FROM test LEFT JOIN classtypes ON test.classtype=classtypes.id')->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_CLASSTYPE|PDO::FETCH_SERIALIZE, 'TestLeaf', array());
+	$db->query("SELECT classtypes.name AS name, test.val AS val FROM test, classtypes WHERE test.classtype='4'")->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_CLASSTYPE|PDO::FETCH_SERIALIZE, 'TestLeaf', array());
 }
 catch (PDOException $e)
 {
@@ -141,13 +150,16 @@ catch (PDOException $e)
 }
 
 echo "===COUNT===\n";
-var_dump($db->query('SELECT COUNT(*) FROM test JOIN classtypes ON test.classtype=classtypes.id WHERE (classtypes.id IS NULL OR classtypes.id > 0)')->fetchColumn());
+//var_dump($db->query('SELECT COUNT(*) FROM test LEFT JOIN classtypes ON test.classtype=classtypes.id WHERE (classtypes.id IS NULL OR classtypes.id > 0)')->fetchColumn());
+var_dump($db->query('SELECT COUNT(*) FROM test where id > 0')->fetchColumn());
 
 echo "===DATABASE===\n";
-$stmt = $db->prepare('SELECT classtypes.name AS name, test.val AS val FROM test JOIN classtypes ON test.classtype=classtypes.id WHERE (classtypes.id IS NULL OR classtypes.id > 0)');
+//$stmt = $db->prepare('SELECT classtypes.name AS name, test.val AS val FROM test LEFT JOIN classtypes ON test.classtype=classtypes.id WHERE (classtypes.id IS NULL OR classtypes.id > 0)');
+$stmt = $db->prepare("SELECT classtypes.name AS name, test.val AS val FROM test,  classtypes WHERE test.classtype=classtypes.id and classtypes.id <> '0'");
 
 $stmt->execute();
-var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
+$database = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//var_dump($database);
 
 echo "===FETCHCLASS===\n";
 $stmt->execute();
@@ -156,14 +168,16 @@ var_dump($stmt->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_CLASSTYPE|PDO::FETCH_SERIAL
 
 ?>
 --EXPECTF--
-string(1) "3"
-array(3) {
+string(1) "4"
+array(4) {
   [0]=>
   string(8) "stdClass"
   [1]=>
   string(8) "TestBase"
   [2]=>
   string(11) "TestDerived"
+  [4]=>
+  NULL
 }
 ===TYPES===
 array(4) {
@@ -198,29 +212,6 @@ Exception:SQLSTATE[HY000]: General error: cannot unserialize class
 ===COUNT===
 string(1) "3"
 ===DATABASE===
-array(3) {
-  [0]=>
-  array(2) {
-    ["name"]=>
-    string(8) "TestBase"
-    ["val"]=>
-    string(91) "a:3:{s:7:"BasePub";s:6:"Public";s:7:"BasePro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
-  }
-  [1]=>
-  array(2) {
-    ["name"]=>
-    string(11) "TestDerived"
-    ["val"]=>
-    string(172) "a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
-  }
-  [2]=>
-  array(2) {
-    ["name"]=>
-    NULL
-    ["val"]=>
-    string(172) "a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
-  }
-}
 ===FETCHCLASS===
 TestBase::unserialize(a:3:{s:7:"BasePub";s:6:"Public";s:7:"BasePro";s:9:"Protected";s:7:"BasePri";s:7:"Private";})
 TestDerived::unserialize()
@@ -229,42 +220,42 @@ TestDerived::unserialize()
 TestBase::unserialize(a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";})
 array(3) {
   [0]=>
-  object(TestBase)#%d (3) {
+  object(TestBase)#8 (3) {
     ["BasePub"]=>
     string(7) "#Public"
-    ["BasePro":protected]=>
+    ["BasePro:protected"]=>
     string(10) "#Protected"
-    ["BasePri":"TestBase":private]=>
+    ["BasePri:private"]=>
     string(8) "#Private"
   }
   [1]=>
-  object(TestDerived)#%d (6) {
+  object(TestDerived)#9 (6) {
     ["BasePub"]=>
     string(14) "#DerivedPublic"
-    ["BasePro":protected]=>
+    ["BasePro:protected"]=>
     string(17) "#DerivdeProtected"
     ["DerivedPub"]=>
     string(7) "#Public"
-    ["DerivedPro":protected]=>
+    ["DerivedPro:protected"]=>
     string(10) "#Protected"
-    ["DerivedPri":"TestDerived":private]=>
+    ["DerivedPri:private"]=>
     string(7) "Private"
-    ["BasePri":"TestBase":private]=>
+    ["BasePri:private"]=>
     string(8) "#Private"
   }
   [2]=>
-  object(TestLeaf)#%d (6) {
+  object(TestLeaf)#10 (6) {
     ["BasePub"]=>
     string(14) "#DerivedPublic"
-    ["BasePro":protected]=>
+    ["BasePro:protected"]=>
     string(17) "#DerivdeProtected"
     ["DerivedPub"]=>
     string(7) "#Public"
-    ["DerivedPro":protected]=>
+    ["DerivedPro:protected"]=>
     string(10) "#Protected"
-    ["DerivedPri":"TestDerived":private]=>
+    ["DerivedPri:private"]=>
     string(7) "Private"
-    ["BasePri":"TestBase":private]=>
+    ["BasePri:private"]=>
     string(8) "#Private"
   }
 }

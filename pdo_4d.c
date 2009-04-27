@@ -17,6 +17,11 @@
 #include "pdo/php_pdo.h"
 #include "pdo/php_pdo_driver.h"
 
+#include "php.h"
+#include "php_ini.h"
+#include "ext/standard/info.h"
+#include "ext/standard/php_string.h"
+#include "zend_exceptions.h"
 
 /* {{{ phpinfo logo definitions */
 
@@ -27,7 +32,6 @@ static unsigned char pdo_4d_logo[] = {
 #include "pdo_4d_logos.h"
 }; 
 /* }}} */
-
 /* {{{ pdo_4d_functions[] */
 function_entry pdo_4d_functions[] = {
 	{ NULL, NULL, NULL }
@@ -54,13 +58,21 @@ zend_module_entry pdo_4d_module_entry = {
 #ifdef COMPILE_DL_PDO_4D
 ZEND_GET_MODULE(pdo_4d)
 #endif
+/* {{{ PHP_INI_BEGIN
+*/
+PHP_INI_BEGIN()
+	PHP_INI_ENTRY("pdo_4d.preferred_image_types", "jpg", PHP_INI_ALL, NULL)
+	PHP_INI_ENTRY("pdo_4d.timeout", "30", PHP_INI_ALL, NULL)
+PHP_INI_END()
+
+/* }}} */
 
 
 /* {{{ PHP_MINIT_FUNCTION */
 PHP_MINIT_FUNCTION(pdo_4d)
 {
 	php_register_info_logo("PDO_4D_LOGO_ID", "", pdo_4d_logo, 778);
-
+	REGISTER_INI_ENTRIES();
 	/* add your stuff here */
 	
 	/* register 4d pdo driver */
@@ -83,7 +95,7 @@ PHP_MSHUTDOWN_FUNCTION(pdo_4d)
 	php_unregister_info_logo("PDO_4D_LOGO_ID");
 	
 	php_pdo_unregister_driver(&pdo_4d_driver);
-
+    UNREGISTER_INI_ENTRIES();
 
 	/* add your stuff here */
 
@@ -135,6 +147,7 @@ PHP_MINFO_FUNCTION(pdo_4d)
 
 }
 /* }}} */
+
 
 #endif /* HAVE_PDO_4D */
 

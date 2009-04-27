@@ -23,7 +23,7 @@ $db->exec('CREATE TABLE test(id INT NOT NULL, primary key(id))');
 
 var_dump($db->exec('INSERT INTO test values (1)'));
 
-var_dump($db->exec('INSERT INTO test values (2);INSERT INTO test values (3);'));
+var_dump(@$db->exec('INSERT INTO test values (2);INSERT INTO test values (3);'));
 
 $r = $db->prepare("SELECT id FROM test");
 $r->execute();
@@ -37,7 +37,7 @@ $db->exec('DROP TABLE test');
 ?>
 --EXPECT--
 int(1)
-int(1)
+bool(false)
 Array
 (
     [0] => Array
@@ -45,11 +45,5 @@ Array
             [id] => 1
             [0] => 1
         )
-    [1] => Array
-        (
-            [id] => 2
-            [0] => 2
-        )
-
 
 )

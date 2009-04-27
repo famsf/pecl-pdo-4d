@@ -55,7 +55,6 @@ extern int _pdo_4d_error(pdo_dbh_t *dbh, pdo_stmt_t *stmt, const char *file, int
 extern struct pdo_stmt_methods fourd_stmt_methods;
 
 
-
 enum {
 	PDO_FOURD_ATTR_CHARSET = PDO_ATTR_DRIVER_SPECIFIC,
 	PDO_FOURD_ATTR_PREFERRED_IMAGE_TYPES,

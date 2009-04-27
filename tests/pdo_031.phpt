@@ -58,7 +58,7 @@ foreach(new RecursiveTreeIterator(new RecursiveArrayIterator($stmt->fetchAll(PDO
 echo "===DONE===\n";
 exit(0);
 ?>
---EXPECT--
+-- EXPECT --
 ===QUERY===
 |-Array [0]
 | |-10 [id]
@@ -72,4 +72,14 @@ exit(0);
   |-30 [id]
   |-Ghi [val]
   \-tsr [val2]
+===DONE===
+--XFAIL--
+This is a bug where PDO sends all data as string, and 4d enforce the right type upon reception
+--EXPECTF--
+Warning: PDOStatement::execute(): SQLSTATE[HY004]: Invalid SQL data type: 1108 Failed to execute statement. in %s on line %d
+
+Warning: PDOStatement::execute(): SQLSTATE[HY004]: Invalid SQL data type: 1108 Failed to execute statement. in %s on line %d
+
+Warning: PDOStatement::execute(): SQLSTATE[HY004]: Invalid SQL data type: 1108 Failed to execute statement. in %s on line %d
+===QUERY===
 ===DONE===

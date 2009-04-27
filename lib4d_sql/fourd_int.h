@@ -18,6 +18,8 @@ int socket_send_data(FOURD *cnx,const char*msg,int len);
 int socket_receiv_header(FOURD *cnx,FOURD_RESULT *state);
 int socket_receiv_data(FOURD *cnx,FOURD_RESULT *state);
 int socket_receiv_update_count(FOURD *cnx,FOURD_RESULT *state);
+int set_sock_blocking(int socketd, int block);
+int socket_connect_timeout(FOURD *cnx,const char *host,unsigned int port,int timeout);
 /*******************/
 /* fourd_interne.c */
 /*******************/
@@ -42,6 +44,7 @@ int close_statement(FOURD_RESULT *res,unsigned short int id_cmd);
 
 int _query_param(FOURD *cnx,unsigned short int id_cmd, const char *request,unsigned int nbParam, const FOURD_ELEMENT *param,FOURD_RESULT *result,const char*image_type); 
 int _is_multi_query(const char *request);
+int _valid_query(FOURD *cnx,const char *request);
 /*********************/
 /* Memory Allocation */
 /*********************/

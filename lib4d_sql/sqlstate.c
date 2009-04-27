@@ -178,7 +178,7 @@ const char * fourd_sqlstate(FOURD *cnx)
 		case 3013: return "HY000";	/*  <= BASE64 ENCODING ERROR */
 		case 3014: return "HY000";	/*  <= INVALID HEADER TERMINATOR */
 
-		
+		case -5001: return "0LP01"; /* driver not support multiquery */
 		default: return "HY000";
 	}
 }

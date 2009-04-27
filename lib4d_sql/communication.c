@@ -2,7 +2,11 @@
 #include "fourd_int.h"
 #include "base64.h"
 #include <string.h>
-
+#include <time.h>
+#ifdef WIN32
+#else
+#include <fcntl.h>
+#endif
 
 
 
@@ -378,6 +382,163 @@ int socket_receiv_update_count(FOURD *cnx,FOURD_RESULT *state)
 	Printf("Ox%X\n",data);
 	cnx->updated_row=data;
 	Printf("\n");
+
+	return 0;
+}
+int set_sock_blocking(int socketd, int block)
+{
+	int ret = 0;
+	int flags;
+	int myflag = 0;
+
+#ifdef WIN32
+	/* with ioctlsocket, a non-zero sets nonblocking, a zero sets blocking */
+	flags = !block;
+	if (ioctlsocket(socketd, FIONBIO, &flags) == SOCKET_ERROR) {
+		/*char *error_string;
+		
+		error_string = php_socket_strerror(WSAGetLastError(), NULL, 0);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "%s", error_string);
+		efree(error_string);*/
+		ret = 1;
+	}
+#else
+	flags = fcntl(socketd, F_GETFL);
+#ifdef O_NONBLOCK
+	myflag = O_NONBLOCK; /* POSIX version */
+#elif defined(O_NDELAY)
+	myflag = O_NDELAY;   /* old non-POSIX version */
+#endif
+	if (!block) {
+		flags |= myflag;
+	} else {
+		flags &= ~myflag;
+	}
+	fcntl(socketd, F_SETFL, flags);
+#endif
+	return ret;
+}
+
+int socket_connect_timeout(FOURD *cnx,const char *host,unsigned int port,int timeout)
+{
+	//WSADATA wsaData;
+	
+	struct addrinfo *result = NULL,
+					*ptr = NULL,
+					hints;
+	int iResult=0,valopt=0;
+	/*SOCKET ConnectSocket = INVALID_SOCKET; */
+	struct timeval tv; 
+	fd_set myset; 
+	socklen_t lon;
+	
+	int nbTryConnect=0;
+	char sport[50];
+	sprintf_s(sport,50,"%d",port);
+
+	/*
+	Initialize Winsock
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0) {
+        Printf("WSAStartup failed: %d\n", iResult);
+        return 1;
+    }
+	*/
+
+	/* initialize Hints */
+	ZeroMemory( &hints, sizeof(hints) );
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_protocol = IPPROTO_TCP;
+
+	/* Resolve the server address and port */
+	iResult = getaddrinfo(host, sport, &hints, &result);
+	if ( iResult != 0 ) {
+		Printf("getaddrinfo failed: %d : %s\n", iResult,gai_strerror(iResult));
+		cnx->error_code=-iResult;
+		strncpy_s(cnx->error_string,2048,gai_strerror(iResult),2048);
+		return 1;
+	}
+	/* Printf("getaddrinfo ok\n"); */
+
+		
+	/*Attempt to connect to the first address returned by
+	 the call to getaddrinfo */
+	ptr=result;
+
+	/* Create a SOCKET for connecting to server */
+	cnx->socket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+	if (cnx->socket == INVALID_SOCKET) {
+		Printf("Error at socket(): %ld\n", WSAGetLastError());
+		cnx->error_code=-WSAGetLastError();
+		strncpy_s(cnx->error_string,2048,"Unable to create socket",2048);
+		freeaddrinfo(result);
+		return 1;
+	}
+	/* Printf("Socket Ok\n"); */
+	/*set Non blocking socket */
+	set_sock_blocking(cnx->socket,0);
+	/* Connect to server. */
+	iResult = connect( cnx->socket, ptr->ai_addr, (int)ptr->ai_addrlen);
+	if(iResult<0){
+		if (errno == EINPROGRESS) { 
+        tv.tv_sec = 15; 
+        tv.tv_usec = 0; 
+        FD_ZERO(&myset); 
+        FD_SET(cnx->socket, &myset); 
+        if (select(cnx->socket+1, NULL, &myset, NULL, &tv) > 0) { 
+           lon = sizeof(int); 
+           getsockopt(cnx->socket, SOL_SOCKET, SO_ERROR, (void*)(&valopt), &lon); 
+           if (valopt) { 
+				fprintf(stderr, "Error in connection() %d - %s\n", valopt, strerror(valopt)); 
+				return 1; 
+           } 
+           /*connection ok*/
+        } 
+        else { 
+			/*fprintf(stderr, "Timeout or error() %d - %s\n", valopt, strerror(valopt)); */
+			cnx->error_code=3011;
+			strncpy_s(cnx->error_string,2048,"Connect timed out",2048);
+			freeaddrinfo(result);
+			closesocket(cnx->socket);
+			cnx->socket = INVALID_SOCKET;
+			return 1;
+        } 
+     } 
+     else { 
+        /*fprintf(stderr, "Error connecting %d - %s\n", errno, strerror(errno)); */
+        cnx->error_code=-errno;
+			strncpy_s(cnx->error_string,2048,"Error connecting",2048);
+			freeaddrinfo(result);
+			closesocket(cnx->socket);
+			cnx->socket = INVALID_SOCKET;
+        return 1;
+     } 
+
+		
+	}
+		
+	/* Printf("Connexion ok\n"); */
+
+
+	/*set blocking socket */
+	set_sock_blocking(cnx->socket,1);
+
+	
+	/* Should really try the next address returned by getaddrinfo
+	   if the connect call failed
+	   But for this simple example we just free the resources
+	   returned by getaddrinfo and print an error message */
+
+	freeaddrinfo(result);
+
+	if (cnx->socket == INVALID_SOCKET) {
+		Printf("Unable to connect to server!\n");
+		cnx->error_code=-1;
+		strncpy_s(cnx->error_string,2048,"Unable to connect to server",2048);
+		return 1;
+	}
+	/* Printf("fin de la fonction\n"); */
 
 	return 0;
 }

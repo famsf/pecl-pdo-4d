@@ -46,7 +46,7 @@ int fourd_connect(FOURD *cnx,const char *host,const char *user,const char *passw
 		strncpy_s(cnx->error_string,2048,"Already connected",2048);
 		return 1;
 	}
-	if(socket_connect(cnx,host,port))
+	if(socket_connect_timeout(cnx,host,port,15))
 	{
 		//erreur de connection
 		Printferr("Erreur in socket_connect\n");
@@ -55,7 +55,7 @@ int fourd_connect(FOURD *cnx,const char *host,const char *user,const char *passw
 		//strncpy_s(cnx->error_string,2048,"Error during connection",2048);
 		return 1;
 	}
-	if(login(cnx,1,user,((password==NULL)?"":password),DEFAULT_IMAGE_TYPE)!=0)
+	if(login(cnx,1,user,((password==NULL)?"":password),cnx->preferred_image_types)!=0)
 	{
 		//erreur de login
 		Printferr("Erreur: in login function\n");
@@ -420,4 +420,8 @@ const char* fourd_get_preferred_image_types(FOURD* cnx)
 const char* fourd_get_statement_preferred_image_types(FOURD_STATEMENT *state)
 {
 	return state->preferred_image_types;
+}
+void fourd_timeout(FOURD* cnx,int timeout)
+{
+	cnx->timeout=timeout;
 }
