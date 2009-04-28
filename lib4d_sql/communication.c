@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 #ifdef WIN32
+#define EINPROGRESS WSAEWOULDBLOCK
 #else
 #include <fcntl.h>
 #endif
