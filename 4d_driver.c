@@ -1,6 +1,8 @@
 /*
   +----------------------------------------------------------------------+
-  | (C) Copyright 4D SAS 2009                                            |
+  | PECL :: PDO_4D                                                       |
+  +----------------------------------------------------------------------+
+  | Copyright (c) 1997-2007 The PHP Group                                |
   +----------------------------------------------------------------------+
   |                                                                      |
   | This source file is subject to version 3.01 of the PHP license,      |
@@ -11,8 +13,12 @@
   | obtain it through the world-wide-web, please send a note to          |
   | license@php.net so we can mail you a copy immediately.               |
   +----------------------------------------------------------------------+
-  | Authors: Alexandre Morgaut <php@4d.fr>,                              |
-  |          Stephane Planquart <stephane.planquart@o4db.com>,           |
+  | Contributed by Alter Way                                             |
+  |                http://www.alterway.fr/                               |
+  |                4D SAS                                                |
+  |                http://www.4d.fr/                                     |
+  | Authors: Stephane Planquart <stephane.planquart@o4db.com>,           |
+  |          Alexandre Morgaut <php@4d.fr>                               |
   +----------------------------------------------------------------------+
 */
 
