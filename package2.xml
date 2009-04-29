@@ -16,10 +16,10 @@
     <email>stephane.planquart@o4db.com</email>
     <active>no</active>
   </developer>
-  <date>2009-04-22</date>
+  <date>2009-04-29</date>
   <version>
-    <release>0.1.1</release>
-    <api>0.1.0</api>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
   </version>
   <stability>
     <release>alpha</release>
@@ -27,7 +27,8 @@
   </stability>
   <license>PHP</license>
   <notes>
-   Initial release.
+   Added support for timeout, monoquery and 4D 11.4.
+   Developement cycle release.
   </notes>
     <contents>
         <dir name="/">
@@ -50,6 +51,13 @@
             <file role="test" name="014.phpt"/>
             <file role="test" name="015.phpt"/>
             <file role="test" name="016.phpt"/>
+            <file role="test" name="017.phpt"/>
+            <file role="test" name="018.phpt"/>
+            <file role="test" name="019.phpt"/>
+            <file role="test" name="020.phpt"/>
+            <file role="test" name="021.phpt"/>
+            <file role="test" name="022.phpt"/>
+            <file role="test" name="023.phpt"/>
             <file role="test" name="01_pdo_connect.phpt"/>
             <file role="test" name="0xx_pdo_unicode.phpt"/>
             <file role="test" name="bug_34630.phpt"/>
