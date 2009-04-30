@@ -20,7 +20,6 @@
 #include "fourd.h"
 #include "fourd_int.h"
 #include "base64.h"
-
 #include <string.h>
 #include <time.h>
 #ifdef WIN32
@@ -502,19 +501,24 @@ int socket_connect_timeout(FOURD *cnx,const char *host,unsigned int port,int tim
 	/* Connect to server. */
 	iResult = connect( cnx->socket, ptr->ai_addr, (int)ptr->ai_addrlen);
 	if(iResult<0){
-		if (errno == EINPROGRESS) { 
-        tv.tv_sec = 15; 
+		if (WSAGetLastError() == EINPROGRESS) { 
+        tv.tv_sec = timeout; 
         tv.tv_usec = 0; 
         FD_ZERO(&myset); 
         FD_SET(cnx->socket, &myset); 
         if (select(cnx->socket+1, NULL, &myset, NULL, &tv) > 0) { 
-           lon = sizeof(int); 
-           getsockopt(cnx->socket, SOL_SOCKET, SO_ERROR, (void*)(&valopt), &lon); 
-           if (valopt) { 
-				fprintf(stderr, "Error in connection() %d - %s\n", valopt, strerror(valopt)); 
-				return 1; 
-           } 
-           /*connection ok*/
+					lon = sizeof(int); 
+					getsockopt(cnx->socket, SOL_SOCKET, SO_ERROR, (void*)(&valopt), &lon); 
+					if (valopt) { 
+						fprintf(stderr, "Error in connection() %d - %s\n", valopt, strerror(valopt));
+						cnx->error_code=valopt;
+						strncpy_s(cnx->error_string,2048,strerror(valopt),2048);
+						freeaddrinfo(result);
+						closesocket(cnx->socket);
+						cnx->socket = INVALID_SOCKET;
+						return 1;
+					} 
+					/*connection ok*/
         } 
         else { 
 			/*fprintf(stderr, "Timeout or error() %d - %s\n", valopt, strerror(valopt)); */
@@ -528,7 +532,7 @@ int socket_connect_timeout(FOURD *cnx,const char *host,unsigned int port,int tim
      } 
      else { 
         /*fprintf(stderr, "Error connecting %d - %s\n", errno, strerror(errno)); */
-        cnx->error_code=-errno;
+        cnx->error_code=-WSAGetLastError();
 			strncpy_s(cnx->error_string,2048,"Error connecting",2048);
 			freeaddrinfo(result);
 			closesocket(cnx->socket);
