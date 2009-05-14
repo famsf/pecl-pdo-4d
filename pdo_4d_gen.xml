@@ -1,4 +1,4 @@
-<?xml version = "1.0"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <extension name = "pdo_4d" version="0.1.0">
   <summary>PDOs driver for 4D-SQL database</summary>
   <logo src="4dlogo.gif" mimetype="image/gif"/>

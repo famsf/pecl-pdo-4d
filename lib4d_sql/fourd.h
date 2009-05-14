@@ -47,9 +47,9 @@ typedef struct in_addr IN_ADDR;
 #define VERBOSE 0
 
 
-/* taille maximal de 2K pour les envoi de requête  */
+/* taille maximal de 2K pour les envoi de requÍte  */
 /* #define BUFFER_LENGTH 131072 */
-/* taille maximal de 128K pour les réponse */
+/* taille maximal de 128K pour les rÈponse */
 #define BUFFER_LENGTH 131072
 #define ERROR_STRING_LENGTH 2048
 

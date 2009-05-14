@@ -59,7 +59,7 @@ int fourd_connect(FOURD *cnx,const char *host,const char *user,const char *passw
 	}
 	if(cnx->connected)
 	{
-		//déjà connecter
+		//deja connecter
 		Printferr("Erreur: already connected\n");
 		cnx->error_code=-1;
 		strncpy_s(cnx->error_string,2048,"Already connected",2048);
