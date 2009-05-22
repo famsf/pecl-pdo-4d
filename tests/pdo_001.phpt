@@ -3,15 +3,17 @@ PDO Common: PDO::FETCH_ASSOC
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip');
-//$dir = getenv('REDIR_TEST_DIR');
+$dir = getenv('REDIR_TEST_DIR');
 //if (false == $dir) die('skip no driver');
-//require_once $dir . 'pdo_test.inc';
-//PDOTest::skip();
+require_once $dir . 'pdo_test.inc';
+PDOTest::skip();
 ?>
 --FILE--
 <?php
-require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+require dirname(__FILE__) . '/../../../ext/pdo_4d/tests/pdo_test.inc';
+
 $db = PDOTest::test_factory(dirname(__FILE__) . '/common.phpt');
+
 
 $db->exec('CREATE TABLE test(id int NOT NULL, val VARCHAR(10), PRIMARY KEY (id))');
 $db->exec("INSERT INTO test VALUES(1, 'A')");

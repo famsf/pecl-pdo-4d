@@ -1,5 +1,14 @@
 --TEST--
 PDO 4D: Unicode Field Names
+--SKIPIF--
+<?php # vim:ft=php
+if (!extension_loaded('pdo')) die('skip');
+if (!interface_exists('Serializable')) die('skip no Serializable interface');
+$dir = getenv('REDIR_TEST_DIR');
+//if (false == $dir) die('skip no driver');
+require_once $dir . 'pdo_test.inc';
+PDOTest::skip();
+?>
 --FILE--
 <?php
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
@@ -9,14 +18,26 @@ mb_internal_encoding("UTF-8");
 
 $data = file(dirname(__FILE__) . '/test.data');
 $x = array();
-for ($i = 0;$i < 5; $i++) {
-	$field = mb_substr($data[$i],0,mb_strlen($data[$i])-5);
-	$db->query("CREATE TABLE table ([$field] INT32, field2 VARCHAR, field3 BOOLEAN);");
-	$db->query("INSERT INTO table ([$field],field2,field3) VALUES (1, 'ok', true);");
-	$q = $db->prepare("SELECT [$field1],field2,field3 FROM table");
-	$q->execute();
-	$x[$i] = $q->fetch(PDO::FETCH_NUM);
-	$db->query("DROP TABLE table;");
+for ($i = 0;$i < 21; $i++) {
+    $l = mb_strlen($data[$i]);
+    for($j = 0; $j < 300; $j++) {
+    	$field = mb_substr($data[$i],$j,1);//mb_strlen($data[$i])-5);
+    	
+    	if (empty($field)) { continue;}
+	    $req = "CREATE TABLE X ([$field] INT);";
+    	print "$req\n";
+	    $db->query($req);
+
+    	$req = "INSERT INTO X ([$field]) VALUES ($i);";
+	    print "$req\n";
+    	$db->query($req);
+
+	    $q = $db->prepare("SELECT [$field] FROM X");
+    	$q->execute();
+
+	    $x[$i] = $q->fetch(PDO::FETCH_NUM);
+    	$db->query("DROP TABLE X;");
+    }
 }
 print_r($x);
 ?>

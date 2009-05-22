@@ -3,7 +3,7 @@ PDO Common: Bug #42917 (PDO::FETCH_KEY_PAIR doesn't work with setFetchMode)
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip');
-//$dir = getenv('REDIR_TEST_DIR');
+$dir = getenv('REDIR_TEST_DIR');
 //if (false == $dir) die('skip no driver');
 require_once $dir . 'pdo_test.inc';
 PDOTest::skip();

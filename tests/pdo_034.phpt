@@ -5,7 +5,7 @@ PDO Common: PDO::FETCH_KEY_PAIR fetch mode test
 if (!extension_loaded('pdo')) die('skip');
 $dir = getenv('REDIR_TEST_DIR');
 //if (false == $dir) die('skip no driver');
-//require_once $dir . 'pdo_test.inc';
+require_once $dir . 'pdo_test.inc';
 PDOTest::skip();
 ?>
 --FILE--

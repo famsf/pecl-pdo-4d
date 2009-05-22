@@ -2,9 +2,9 @@
 PDO Common: PECL Bug #5217 (serialize/unserialze safety)
 --SKIPIF--
 <?php # vim:ft=php
-//if (!extension_loaded('pdo')) die('skip');
-//$dir = getenv('REDIR_TEST_DIR');
-if (false == $dir) die('skip no driver');
+if (!extension_loaded('pdo')) die('skip');
+$dir = getenv('REDIR_TEST_DIR');
+//if (false == $dir) die('skip no driver');
 require_once $dir . 'pdo_test.inc';
 PDOTest::skip();
 ?>

@@ -3,7 +3,8 @@ PDO Common: Bug #34687 (query doesn't return error information)
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip');
-//$dir = getenv('REDIR_TEST_DIR');
+if (!interface_exists('Serializable')) die('skip no Serializable interface');
+$dir = getenv('REDIR_TEST_DIR');
 //if (false == $dir) die('skip no driver');
 require_once $dir . 'pdo_test.inc';
 PDOTest::skip();

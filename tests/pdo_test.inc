@@ -36,7 +36,11 @@ class PDOTest {
 		if ($user === false) $user = NULL;
 		if ($pass === false) $pass = NULL;
 
-		$db = new $classname($dsn, $user, $pass, $attr);
+        try {
+    		$db = new $classname($dsn, $user, $pass, $attr);
+    	} catch (PDOException $e) {
+		    PDOTest::skip();
+    	}
 
 		if (!$db) {
 			die("Could not create PDO object (DSN=$dsn, user=$user)\n");

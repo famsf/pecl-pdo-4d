@@ -3,7 +3,7 @@ PDO Common: Bug #39656 (Crash when calling fetch() on a PDO statment object afte
 --SKIPIF--
 <?php
 if (!extension_loaded('pdo')) die('skip');
-//$dir = getenv('REDIR_TEST_DIR');
+$dir = getenv('REDIR_TEST_DIR');
 //if (false == $dir) die('skip no driver');
 require_once $dir . 'pdo_test.inc';
 PDOTest::skip();

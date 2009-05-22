@@ -4,7 +4,7 @@ PDO Common: Bug #43663 (__call on classes derived from PDO)
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip');
 if (!extension_loaded('pdo_sqlite')) die('skip');
-//$dir = getenv('REDIR_TEST_DIR');
+$dir = getenv('REDIR_TEST_DIR');
 //if (false == $dir) die('skip no driver');
 require_once $dir . 'pdo_test.inc';
 PDOTest::skip();
