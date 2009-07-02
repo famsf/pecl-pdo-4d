@@ -2,12 +2,11 @@
 PDO Common: Bug #43130 (Bound parameters cannot have - in their name)
 --SKIPIF--
 <?php # vim:ft=php
-if (!extension_loaded('pdo')) die('skip');
-$dir = getenv('REDIR_TEST_DIR');
-//if (false == $dir) die('skip no driver');
-if (!strncasecmp(getenv('PDOTEST_DSN'), 'sqlite', strlen('sqlite'))) die('skip not relevant for sqlite driver');
-if (!strncasecmp(getenv('PDOTEST_DSN'), 'pgsql', strlen('pgsql'))) die('skip not relevant for pgsql driver');
-require_once $dir . 'pdo_test.inc';
+if (!extension_loaded('pdo')) die('skip no PDO');
+if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
+
+require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+
 PDOTest::skip();
 ?>
 --FILE--

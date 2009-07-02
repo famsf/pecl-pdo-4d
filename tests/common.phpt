@@ -4,15 +4,14 @@ PDO for 4D
 <?php # vim:ft=php
   if (!extension_loaded('pdo') || !extension_loaded('pdo_4d')) print 'skip not loaded';
   require dirname(__FILE__) . '/config.inc';
-  //  require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
   require './pdo_test.inc';
-  //PDOTest::skip();
+  PDOTest::skip();
 ?>
 --REDIRECTTEST--
 # magic auto-configuration
 
 $config = array(
-	'TESTS' => 'ext/pdo/tests'
+	'TESTS' => 'ext/pdo_4d/tests'
 );
 
 if (false !== getenv('PDO_4D_TEST_DSN')) {

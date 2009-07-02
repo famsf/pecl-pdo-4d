@@ -2,13 +2,14 @@
 PDO Common: PDOStatement SPL iterator
 --SKIPIF--
 <?php # vim:ft=php
-if (!extension_loaded('pdo')) die('skip');
+if (!extension_loaded('pdo')) die('skip no PDO');
+if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
 if (!extension_loaded('SPL')) die('skip SPL not available');
-$dir = getenv('REDIR_TEST_DIR');
-//if (false == $dir) die('skip no driver');
-require_once $dir . 'pdo_test.inc';
 if (!class_exists('RecursiveArrayIterator', false)) die('skip Class RecursiveArrayIterator missing');
 if (!class_exists('RecursiveTreeIterator', false) && !file_exists(getenv('REDIR_TEST_DIR').'../../spl/examples/recursivetreeiterator.inc')) die('skip Class RecursiveTreeIterator missing');
+
+require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+
 PDOTest::skip();
 ?>
 --FILE--

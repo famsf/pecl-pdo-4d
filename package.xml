@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <package version="1.0" packagerversion="1.7.2">
  <name>pdo_4d</name>
@@ -20,11 +20,12 @@
   </maintainer>
   </maintainers>
  <release>
-  <version>0.1.1</version>
-  <date>2009-04-23</date>
+  <version>0.2.0</version>
+  <date>2009-05-22</date>
   <license>PHP</license>
   <state>alpha</state>
-  <notes>Initial release.
+  <notes>Added support for timeout, monoquery and 4D 11.4.
+Developement cycle release.
   </notes>
   <deps>
    <dep type="php" rel="ge" version="5.2.0"/>
@@ -44,7 +45,7 @@
     <file role="src" name="fourd_result.c"/>
     <file role="src" name="fourd_type.c"/>
     <file role="src" name="fourd_type.h"/>
-    <file role="doc" name="GNU"/>
+    <file role="doc" name="GPL"/>
     <file role="doc" name="LGPL"/>
     <file role="doc" name="LICENSE"/>
     <file role="doc" name="PHP"/>
@@ -74,6 +75,13 @@
     <file role="test" name="014.phpt"/>
     <file role="test" name="015.phpt"/>
     <file role="test" name="016.phpt"/>
+    <file role="test" name="017.phpt"/>
+    <file role="test" name="018.phpt"/>
+    <file role="test" name="019.phpt"/>
+    <file role="test" name="020.phpt"/>
+    <file role="test" name="021.phpt"/>
+    <file role="test" name="022.phpt"/>
+    <file role="test" name="023.phpt"/>
     <file role="test" name="bug_34630.phpt"/>
     <file role="test" name="bug_34687.phpt"/>
     <file role="test" name="bug_35671.phpt"/>

@@ -1,8 +1,15 @@
 --TEST--
 PDO Common: PDORow + get_parent_class()
 --SKIPIF--
-<?php
+<?php # vim:ft=php
+if (!extension_loaded('pdo')) die('skip no PDO');
+if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
+
 if (!extension_loaded('pdo_sqlite')) die ("skip Need PDO_SQlite support");
+
+require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+
+PDOTest::skip();
 ?>
 --FILE--
 <?php

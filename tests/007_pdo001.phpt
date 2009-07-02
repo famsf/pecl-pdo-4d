@@ -2,10 +2,11 @@
 PDO Common: PDO::FETCH_ASSOC
 --SKIPIF--
 <?php # vim:ft=php
-if (!extension_loaded('pdo')) die('skip');
-$dir = getenv('REDIR_TEST_DIR');
-//if (false == $dir) die('skip no driver');
-require_once $dir . 'pdo_test.inc';
+if (!extension_loaded('pdo')) die('skip no PDO');
+if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
+
+require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+
 PDOTest::skip();
 ?>
 --FILE--

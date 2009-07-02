@@ -2,12 +2,12 @@
 Bug #44159 (Crash: $pdo->setAttribute(PDO::STATEMENT_ATTR_CLASS, NULL))
 --SKIPIF--
 <?php # vim:ft=php
-if (!extension_loaded('pdo')) die('skip PDO not available');
-try {
-	$pdo = new PDO("sqlite:/tmp/foo.db");
-} catch (Exception $e) {
-	die("skip PDP_SQLITE not available");
-}
+if (!extension_loaded('pdo')) die('skip no PDO');
+if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
+
+require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+
+PDOTest::skip();
 ?>
 --FILE--
 <?php

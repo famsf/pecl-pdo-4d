@@ -33,6 +33,7 @@
     <contents>
         <dir name="/">
           <dir name="tests">
+            <file role="test" name="common.phpt"/>
             <file role="test" name="001.phpt"/>
             <file role="test" name="002.phpt"/>
             <file role="test" name="003.phpt"/>
@@ -136,7 +137,7 @@
             <file role="src" name="fourd_result.c"/>
             <file role="src" name="fourd_type.c"/>
             <file role="src" name="fourd_type.h"/>
-            <file role="doc" name="GNU"/>
+            <file role="doc" name="GPL"/>
             <file role="doc" name="LGPL"/>
             <file role="doc" name="LICENSE"/>
             <file role="doc" name="PHP"/>
