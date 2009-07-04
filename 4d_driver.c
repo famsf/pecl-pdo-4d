@@ -37,6 +37,7 @@
 #include "pdo/php_pdo.h"
 #include "pdo/php_pdo_driver.h"
 #include "php_pdo_4d.h"
+#include <zend_exceptions.h>
 
 #include "php_pdo_4d_int.h"
 
