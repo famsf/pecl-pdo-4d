@@ -28,7 +28,20 @@
 #include <fcntl.h>
 #endif
 
-
+int frecv(SOCKET s,char *buf,int len,int flags)  
+{
+	int rec=0;
+	int iResult=0;
+	do{
+		iResult=recv(s,buf+rec,len-rec, 0);
+		if(iResult<0){
+			return iResult;
+		}else {
+			rec+=iResult;
+		}
+	}while(rec<len);
+	return rec;
+}
 
 int socket_connect(FOURD *cnx,const char *host,unsigned int port)
 {
@@ -219,7 +232,7 @@ int socket_receiv_data(FOURD *cnx,FOURD_RESULT *state)
 	//bufferize Column type
 	for(c=0;c<state->row_type.nbColumn;c++)
 		colType[c]=state->row_type.Column[c].type;
-
+	Printf("nbCol*nbRow:%d\n",nbCol*nbRow);
 	/* allocate nbElmt in state->elmt */
 	state->elmt=calloc(nbCol*nbRow,sizeof(FOURD_ELEMENT));
 	
@@ -233,7 +246,8 @@ int socket_receiv_data(FOURD *cnx,FOURD_RESULT *state)
 		if(state->updateability)  /* rowId is send only if row updateablisity */
 		{
 			int row_id=0;
-			iResult = recv(cnx->socket,&status_code,sizeof(status_code), 0);
+			status_code=0;
+			iResult = frecv(cnx->socket,&status_code,sizeof(status_code), 0);
 			//Printf("status_code for row:0x%X\n",status_code);
 			len+=iResult;
 			switch(status_code)
@@ -242,18 +256,18 @@ int socket_receiv_data(FOURD *cnx,FOURD_RESULT *state)
 				break;
 			case '1':
 				/* pElmt->elmt=calloc(vk_sizeof(colType[0]),1); */
-				iResult = recv(cnx->socket,(char*)&row_id,sizeof(row_id), 0);
+				iResult = frecv(cnx->socket,(char*)&row_id,sizeof(row_id), 0);
 				/* Printf("row_id:%d\n",row_id); */
 				len+=iResult;
 				break;
 			case '2':
 				Printferr("Error during reading data\n");
-				iResult = recv(cnx->socket,(char*)&(state->error_code),sizeof(state->error_code), 0);
+				iResult = frecv(cnx->socket,(char*)&(state->error_code),sizeof(state->error_code), 0);
 				len+=iResult;
 				return 1;	/* return on error */
 				break;
 			default:
-				Printferr("Status code 0x%X not supported in data\n",status_code);
+				Printferr("Status code 0x%X not supported in data at row %d column %d\n",status_code,(elmts_offset-c+1)/nbCol+1,c+1);
 				break;
 			}
 		}
@@ -267,13 +281,15 @@ int socket_receiv_data(FOURD *cnx,FOURD_RESULT *state)
 			pElmt->type=colType[c];
 
 			//read column status code
-			iResult = recv(cnx->socket,&status_code,1, 0);
+			status_code=0;
+			iResult = frecv(cnx->socket,&status_code,1, 0);
+			Printf("status: %2X\n",status_code);
 			len+=iResult;
 			switch(status_code)
 			{
 			case '2'://error
 				Printferr("Error during reading data\n");
-				iResult = recv(cnx->socket,(char*)&(state->error_code),sizeof(state->error_code), 0);
+				iResult = frecv(cnx->socket,(char*)&(state->error_code),sizeof(state->error_code), 0);
 				len+=iResult;
 				return 1;//on sort en erreur
 				break;
@@ -292,23 +308,27 @@ int socket_receiv_data(FOURD *cnx,FOURD_RESULT *state)
 				case VK_LONG8:
 				case VK_REAL:
 				case VK_DURATION:
-					pElmt->pValue=calloc(vk_sizeof(colType[c]),1);
-					iResult = recv(cnx->socket,(pElmt->pValue),vk_sizeof(colType[c]), 0);
+					pElmt->pValue=calloc(1,vk_sizeof(colType[c]));
+					iResult = frecv(cnx->socket,(pElmt->pValue),vk_sizeof(colType[c]), 0);
 					len+=iResult;
 					//Printf("Long: %d\n",*((int*)pElmt->pValue));
 					break;
 				case VK_TIMESTAMP:
 					{
 						FOURD_TIMESTAMP *tmp;
-						tmp=calloc(sizeof(FOURD_TIMESTAMP),1);
+						tmp=calloc(1,sizeof(FOURD_TIMESTAMP));
 						pElmt->pValue=tmp;
-						iResult = recv(cnx->socket,(char*)&(tmp->year),sizeof(short), 0);
+						iResult = frecv(cnx->socket,(char*)&(tmp->year),sizeof(short), 0);
+						Printf("year: %04X",tmp->year);
 						len+=iResult;
-						iResult = recv(cnx->socket,&(tmp->mounth),sizeof(char), 0);
+						iResult = frecv(cnx->socket,&(tmp->mounth),sizeof(char), 0);
+						Printf("    mounth: %02X",tmp->mounth);
 						len+=iResult;
-						iResult = recv(cnx->socket,&(tmp->day),sizeof(char), 0);
+						iResult = frecv(cnx->socket,&(tmp->day),sizeof(char), 0);
+						Printf("    day: %02X",tmp->day);
 						len+=iResult;
-						iResult = recv(cnx->socket,(char*)&(tmp->milli),sizeof(unsigned int), 0);
+						iResult = frecv(cnx->socket,(char*)&(tmp->milli),sizeof(unsigned int), 0);
+						Printf("    milli: %08X\n",tmp->milli);
 						len+=iResult;
 					}
 					break;
@@ -316,19 +336,19 @@ int socket_receiv_data(FOURD *cnx,FOURD_RESULT *state)
 					{
 						//int exp;char sign;int data_length;void* data;
 						FOURD_FLOAT *tmp;
-						tmp=calloc(sizeof(FOURD_FLOAT),1);
+						tmp=calloc(1,sizeof(FOURD_FLOAT));
 						pElmt->pValue=tmp;
 
-						iResult = recv(cnx->socket,(char*)&(tmp->exp),sizeof(int), 0);
+						iResult = frecv(cnx->socket,(char*)&(tmp->exp),sizeof(int), 0);
 						len+=iResult;
-						iResult = recv(cnx->socket,&(tmp->sign),sizeof(char), 0);
+						iResult = frecv(cnx->socket,&(tmp->sign),sizeof(char), 0);
 						len+=iResult;
-						iResult = recv(cnx->socket,(char*)&(tmp->data_length),sizeof(int), 0);
+						iResult = frecv(cnx->socket,(char*)&(tmp->data_length),sizeof(int), 0);
 						len+=iResult;
-						iResult = recv(cnx->socket,(tmp->data),tmp->data_length, 0);
+						iResult = frecv(cnx->socket,(tmp->data),tmp->data_length, 0);
 						len+=iResult;
 
-						//Printferr("Float not supported\n");
+						Printferr("Float not supported\n");
 					}
 					break;
 				case VK_STRING:
@@ -338,16 +358,22 @@ int socket_receiv_data(FOURD *cnx,FOURD_RESULT *state)
 						//read negative value of length of string
 						str=calloc(1,sizeof(FOURD_STRING));
 						pElmt->pValue=str;					
-						iResult = recv(cnx->socket,(char*)&data_length,4, 0);
+						iResult = frecv(cnx->socket,(char*)&data_length,4, 0);
 						len+=iResult;
+						Printf("String length: %08X\n",data_length);
 						data_length=-data_length;
-						//Printf("Size of String: %d\n",data_length);
 						str->length=data_length;
-						str->data=calloc(1,data_length*2+2);
-						iResult = recv(cnx->socket,(str->data),(data_length*2), 0);
-						str->data[data_length*2]=0;
-						str->data[data_length*2+1]=0;
-						len+=iResult;
+						str->data=calloc(data_length*2+2,1);
+						if(data_length==0){	//correct read for empty string  
+							str->data[0]=0;
+							str->data[1]=0;
+						}
+						else {
+							iResult = frecv(cnx->socket,(str->data),(data_length*2), 0);
+							str->data[data_length*2]=0;
+							str->data[data_length*2+1]=0;
+							len+=iResult;
+						}
 						/*
 						{
 							int length=0;
@@ -368,23 +394,30 @@ int socket_receiv_data(FOURD *cnx,FOURD_RESULT *state)
 						//read negative value of length of string
 						blob=calloc(1,sizeof(FOURD_BLOB));
 						pElmt->pValue=blob;
-						iResult = recv(cnx->socket,(char*)&data_length,4, 0);
+						iResult = frecv(cnx->socket,(char*)&data_length,4, 0);
+						Printf("Blob length: %08X\n",data_length);
 						len+=iResult;
-						blob->length=data_length;
-						blob->data=calloc(1,data_length);
-						iResult = recv(cnx->socket,blob->data,data_length, 0);
-						len+=iResult;
+						if(data_length==0){
+							blob->length=0;
+							blob->data=NULL;
+							pElmt->null=1;
+						}else{
+							blob->length=data_length;
+							blob->data=calloc(data_length,1);
+							iResult = frecv(cnx->socket,blob->data,data_length, 0);
+							len+=iResult;
+						}
 						//Printf("Blob: %d Bytes\n",data_length);
 					}
-					Printferr("Blob not supported\n");
+					//Printferr("Blob not supported\n");
 					break;
 				default:
-					Printferr("Type not supported (%s)\n",stringFromType(colType[c]));
+					Printferr("Type not supported (%s) at row %d column %d\n",stringFromType(colType[c]),(elmts_offset-c+1)/nbCol+1,c+1);
 					break;
 				}
 				break;
 			default:
-				Printferr("Status code 0x%X not supported in data\n",status_code);
+				Printferr("Status code 0x%X not supported in data at row %d column %d\n",status_code,(elmts_offset-c+1)/nbCol+1,c+1);
 				break;
 			}
 		}
@@ -397,7 +430,7 @@ int socket_receiv_update_count(FOURD *cnx,FOURD_RESULT *state)
 	FOURD_LONG8 data=0;
 	int iResult=0;
 	int len=0;
-	iResult = recv(cnx->socket,(char*)&data,8, 0);
+	iResult = frecv(cnx->socket,(char*)&data,8, 0);
 	len+=iResult;
 	Printf("Ox%X\n",data);
 	cnx->updated_row=data;
