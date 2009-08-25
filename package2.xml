@@ -3,7 +3,7 @@
   <name>pdo_4d</name>
   <channel>pecl.php.net</channel>
   <summary>PDO driver for 4D-SQL database</summary>
-  <description>PDO driver for 4D-SQL database</description>
+  <description>PDO_4D is a driver for the PHP Data Objects (PDO) interface to enable access from PHP to 4D databases.</description>
   <lead>
     <name>Alexandre Morgaut</name>
     <user>fourd</user>
@@ -25,7 +25,7 @@
     <release>beta</release>
     <api>beta</api>
   </stability>
-  <license>PHP</license>
+  <license uri="http://www.php.net/license/3_01.txt">PHP License</license>
   <notes>
 Fixed retrieval bug, that made PHP crash when reading too much data.
 Made licence into PHP only. 
@@ -138,7 +138,7 @@ Made licence into PHP only.
             <file role="src" name="fourd_type.h"/>
             <file role="doc" name="LICENSE"/>
             <file role="doc" name="PHP"/>
-            <file role="doc" name="ReadMe.txt"/>
+            <file role="doc" name="README"/>
             <file role="src" name="sqlstate.c"/>
             <file role="src" name="utils.c"/>
             <file role="src" name="utils.h"/>
@@ -173,5 +173,6 @@ Made licence into PHP only.
   </dependencies>
   <providesextension>pdo_4d</providesextension>
   <extsrcrelease/>
-  <changelog />
+  <changelog>Fixed retrieval bug, that made PHP crash when reading too much data.
+Made licence into PHP only.</changelog>
 </package>

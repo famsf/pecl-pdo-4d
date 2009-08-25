@@ -3,8 +3,7 @@
 <package version="1.0" packagerversion="1.8.1">
  <name>pdo_4d</name>
  <summary>PDO driver for 4D-SQL database</summary>
- <description>PDO driver for 4D-SQL database
- </description>
+ <description>PDO_4D is a driver for the PHP Data Objects (PDO) interface to enable access from PHP to 4D databases.</description>
  <maintainers>
   <maintainer>
    <user>fourd</user>
@@ -45,7 +44,7 @@ Made licence into PHP only.
     <file role="src" name="fourd_type.h"/>
     <file role="doc" name="LICENSE"/>
     <file role="doc" name="PHP"/>
-    <file role="doc" name="ReadMe.txt"/>
+    <file role="doc" name="README"/>
     <file role="src" name="sqlstate.c"/>
     <file role="src" name="utils.c"/>
     <file role="src" name="utils.h"/>
@@ -78,6 +77,7 @@ Made licence into PHP only.
     <file role="test" name="021.phpt"/>
     <file role="test" name="022.phpt"/>
     <file role="test" name="023.phpt"/>
+    <file role="test" name="024.phpt"/>
     <file role="test" name="bug_34630.phpt"/>
     <file role="test" name="bug_34687.phpt"/>
     <file role="test" name="bug_35671.phpt"/>

@@ -2,8 +2,9 @@
   +----------------------------------------------------------------------+
   | PECL :: PDO_4D                                                       |
   +----------------------------------------------------------------------+
-  | Copyright (c) 2009 The PHP Group                                     |
+  | Copyright (c) 1997-2007 The PHP Group                                |
   +----------------------------------------------------------------------+
+  |                                                                      |
   | This source file is subject to version 3.01 of the PHP license,      |
   | that is bundled with this package in the file LICENSE, and is        |
   | available through the world-wide-web at the following url:           |
@@ -11,16 +12,12 @@
   | If you did not receive a copy of the PHP license and are unable to   |
   | obtain it through the world-wide-web, please send a note to          |
   | license@php.net so we can mail you a copy immediately.               |
-  |                                                                      |
-  | Unless required by applicable law or agreed to in writing, software  |
-  | distributed under the License is distributed on an "AS IS" BASIS,    |
-  | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
-  | implied. See the License for the specific language governing         |
-  | permissions and limitations under the License.                       |
   +----------------------------------------------------------------------+
-  | Contributed by: 4D <php@4d.fr>, http://www.4d.com                    |
-  |                 Alter Way, http://www.alterway.fr                    |
-  | Authors: Stephane Planquart <stephane.planquart@o4db.com>            |
+  | Contributed by Alter Way                                             |
+  |                http://www.alterway.fr/                               |
+  |                4D SAS                                                |
+  |                http://www.4d.fr/                                     |
+  | Authors: Stephane Planquart <stephane.planquart@o4db.com>,           |
   |          Alexandre Morgaut <php@4d.fr>                               |
   +----------------------------------------------------------------------+
 */
@@ -69,7 +66,7 @@ zend_module_entry pdo_4d_module_entry = {
 	PHP_RINIT(pdo_4d),     /* Replace with NULL if there is nothing to do at request start */
 	PHP_RSHUTDOWN(pdo_4d), /* Replace with NULL if there is nothing to do at request end   */
 	PHP_MINFO(pdo_4d),
-	"0.2", 
+	"0.2.1", 
 	STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
@@ -149,24 +146,25 @@ PHP_MINFO_FUNCTION(pdo_4d)
     
     php_info_print_table_start();
     php_info_print_table_header(2, "PDO Driver for 4D" , "enabled");
-    php_info_print_table_row(2, "Version", "0.2.1 beta");
-    php_info_print_table_row(2, "Revision", "2009-08-06");
-    php_info_print_table_row(2, "Authors", 
+    php_info_print_table_row(2, "Version", "0.2.1");
+    php_info_print_table_row(2, "Status", "Beta");
+    php_info_print_table_row(2, "Build Date", "2009-08-06");
+    php_info_print_table_row(2, "Core library", "lib4d_sql 0.2.1 (http://freshmeat.net/projects/lib4d_sql)");
+    php_info_print_table_row(2, "Provided by ", 
+        "4D (http://www.4d.com), and " 
+        "Alter Way (http://www.alterway.fr)"
+    );
+    php_info_print_table_row(2, "Maintainers", 
         "Alexandre Morgaut (lead), " 
         "Stephane Planquart (developer)"
     );
-    php_info_print_table_row(2, "Contributed by ", 
-        "4D (http://www.4d.com), " 
-        "Alter Way (http://www.alterway.fr)"
-    );
-    php_info_print_table_row(2, "Based on", "lib4d_sql (http://freshmeat.net/projects/lib4d_sql)");
     php_info_print_table_end();
     
     DISPLAY_INI_ENTRIES();
     
 	php_info_print_box_start(0);
 	php_printf("This program makes use of the 4D SQL protocol: <br />");
-	php_printf("4D SQL v11.2 & upper, Copyright (c) 2009 4D");
+	php_printf("4D v11 and up, Copyright (c) 2009 4D");
 	php_printf( 
         "<img src=\"%s?=PDO_4D_LOGO_ID\""
         " align=\"right\" alt=\"4D logo\" border=\"0\">", 

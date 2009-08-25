@@ -1,7 +1,7 @@
-ReadMe.txt
 base64.c
 base64.h
 communication.c
+CREDITS
 fourd.c
 fourd.h
 fourd_int.h
@@ -9,7 +9,10 @@ fourd_interne.c
 fourd_result.c
 fourd_type.c
 fourd_type.h
+LICENSE
 list.txt
+PHP
+README
 sqlstate.c
 utils.c
 utils.h
