@@ -16,7 +16,7 @@
     <email>stephane.planquart@o4db.com</email>
     <active>no</active>
   </developer>
-  <date>2009-08-24</date>
+  <date>2009-08-25</date>
   <version>
     <release>0.2.1</release>
     <api>0.2.1</api>
@@ -59,6 +59,7 @@ Made licence into PHP only.
             <file role="test" name="021.phpt"/>
             <file role="test" name="022.phpt"/>
             <file role="test" name="023.phpt"/>
+            <file role="test" name="024.phpt"/>
             <file role="test" name="01_pdo_connect.phpt"/>
             <file role="test" name="0xx_pdo_unicode.phpt"/>
             <file role="test" name="bug_34630.phpt"/>
