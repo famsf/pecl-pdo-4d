@@ -69,7 +69,7 @@ zend_module_entry pdo_4d_module_entry = {
 	PHP_RINIT(pdo_4d),     /* Replace with NULL if there is nothing to do at request start */
 	PHP_RSHUTDOWN(pdo_4d), /* Replace with NULL if there is nothing to do at request end   */
 	PHP_MINFO(pdo_4d),
-	"0.1", 
+	"0.2", 
 	STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
@@ -146,27 +146,36 @@ PHP_RSHUTDOWN_FUNCTION(pdo_4d)
 /* {{{ PHP_MINFO_FUNCTION */
 PHP_MINFO_FUNCTION(pdo_4d)
 {
+    
+    php_info_print_table_start();
+    php_info_print_table_header(2, "PDO Driver for 4D" , "enabled");
+    php_info_print_table_row(2, "Version", "0.2.1 beta");
+    php_info_print_table_row(2, "Revision", "2009-08-06");
+    php_info_print_table_row(2, "Authors", 
+        "Alexandre Morgaut (lead), " 
+        "Stephane Planquart (developer)"
+    );
+    php_info_print_table_row(2, "Contributed by ", 
+        "4D (http://www.4d.com), " 
+        "Alter Way (http://www.alterway.fr)"
+    );
+    php_info_print_table_row(2, "Based on", "lib4d_sql (http://freshmeat.net/projects/lib4d_sql)");
+    php_info_print_table_end();
+    
+    DISPLAY_INI_ENTRIES();
+    
 	php_info_print_box_start(0);
-
-	php_printf("<img src='");
-	if (SG(request_info).request_uri) {
-		php_printf("%s", (SG(request_info).request_uri));
-	}   
-	php_printf("?=%s", "PDO_4D_LOGO_ID");
-	php_printf("' align='right' alt='image' border='0'>\n");
-
-	php_printf("<p>PDOs driver for 4D-SQL database</p>\n");
-	php_printf("<p>Version 0.1alpha (2009-02-19)</p>\n");
-	php_printf("<p>Revision $Id$ </p>\n");
-	php_printf("<p><b>Authors:</b></p>\n");
-	php_printf("<p>Alexandre Morgaut &lt;php@4d.fr&gt; (lead)</p>\n");
-	php_printf("<p>Stephane Planquart &lt;stephane.planquart@o4db.com&gt; (developer)</p>\n");
-	php_info_print_box_end();
-	/* add your stuff here */
+	php_printf("This program makes use of the 4D SQL protocol: <br />");
+	php_printf("4D SQL v11.2 & upper, Copyright (c) 2009 4D");
+	php_printf( 
+        "<img src=\"%s?=PDO_4D_LOGO_ID\""
+        " align=\"right\" alt=\"4D logo\" border=\"0\">", 
+        SG(request_info).request_uri ? SG(request_info).request_uri : ""
+    );
+    php_info_print_box_end();
 
 }
 /* }}} */
-
 
 #endif /* HAVE_PDO_4D */
 
