@@ -2,9 +2,8 @@
   +----------------------------------------------------------------------+
   | PECL :: PDO_4D                                                       |
   +----------------------------------------------------------------------+
-  | Copyright (c) 1997-2007 The PHP Group                                |
+  | Copyright (c) 2009 The PHP Group                                     |
   +----------------------------------------------------------------------+
-  |                                                                      |
   | This source file is subject to version 3.01 of the PHP license,      |
   | that is bundled with this package in the file LICENSE, and is        |
   | available through the world-wide-web at the following url:           |
@@ -12,12 +11,16 @@
   | If you did not receive a copy of the PHP license and are unable to   |
   | obtain it through the world-wide-web, please send a note to          |
   | license@php.net so we can mail you a copy immediately.               |
+  |                                                                      |
+  | Unless required by applicable law or agreed to in writing, software  |
+  | distributed under the License is distributed on an "AS IS" BASIS,    |
+  | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
+  | implied. See the License for the specific language governing         |
+  | permissions and limitations under the License.                       |
   +----------------------------------------------------------------------+
-  | Contributed by Alter Way                                             |
-  |                http://www.alterway.fr/                               |
-  |                4D SAS                                                |
-  |                http://www.4d.fr/                                     |
-  | Authors: Stephane Planquart <stephane.planquart@o4db.com>,           |
+  | Contributed by: 4D <php@4d.fr>, http://www.4d.com                    |
+  |                 Alter Way, http://www.alterway.fr                    |
+  | Authors: Stephane Planquart <stephane.planquart@o4db.com>            |
   |          Alexandre Morgaut <php@4d.fr>                               |
   +----------------------------------------------------------------------+
 */
