@@ -1,10 +1,6 @@
 Installing PDO_4D
 ---------------
 
-INSTALLING THE LIB4D_SQL
-========================
-To compile PHP with the PDO_4D library, you must install the 
-lib4d_sql, available at http://www.4d.fr/
 
 BUILDING ON UNIX etc.
 =====================
@@ -12,10 +8,11 @@ BUILDING ON UNIX etc.
 To compile your new extension, you will have to execute the following steps:
 
 1.  $ ./phpize
-2.  $ ./configure --enable--pdo_4d=PATH TO lib4d_sql
-3.  $ make
-4.  $ make test
-5.  $ [sudo] make install
+2.  $ ./configure --with-pdo_4d
+3.  $ make clean
+4.  $ make
+5.  $ make test
+6.  $ [sudo] make install
 
 
 
