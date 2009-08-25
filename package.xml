@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<package version="1.0" packagerversion="1.7.2">
+<package version="1.0" packagerversion="1.8.1">
  <name>pdo_4d</name>
  <summary>PDO driver for 4D-SQL database</summary>
  <description>PDO driver for 4D-SQL database
@@ -20,12 +20,12 @@
   </maintainer>
   </maintainers>
  <release>
-  <version>0.2.0</version>
-  <date>2009-05-22</date>
+  <version>0.2.1</version>
+  <date>2009-08-25</date>
   <license>PHP</license>
-  <state>alpha</state>
-  <notes>Added support for timeout, monoquery and 4D 11.4.
-Developement cycle release.
+  <state>beta</state>
+  <notes>Fixed retrieval bug, that made PHP crash when reading too much data.
+Made licence into PHP only.
   </notes>
   <deps>
    <dep type="php" rel="ge" version="5.2.0"/>
@@ -33,10 +33,8 @@ Developement cycle release.
   </deps>
   <filelist>
    <dir name="lib4d_sql">
-    <file role="doc" name="APACHE"/>
     <file role="src" name="base64.c"/>
     <file role="src" name="base64.h"/>
-    <file role="doc" name="BSD"/>
     <file role="src" name="communication.c"/>
     <file role="src" name="fourd.c"/>
     <file role="src" name="fourd.h"/>
@@ -45,8 +43,6 @@ Developement cycle release.
     <file role="src" name="fourd_result.c"/>
     <file role="src" name="fourd_type.c"/>
     <file role="src" name="fourd_type.h"/>
-    <file role="doc" name="GPL"/>
-    <file role="doc" name="LGPL"/>
     <file role="doc" name="LICENSE"/>
     <file role="doc" name="PHP"/>
     <file role="doc" name="ReadMe.txt"/>
@@ -96,6 +92,7 @@ Developement cycle release.
     <file role="test" name="bug_43139.phpt"/>
     <file role="test" name="bug_43663.phpt"/>
     <file role="test" name="bug_44159.phpt"/>
+    <file role="test" name="common.phpt"/>
     <file role="test" name="pdorow.phpt"/>
     <file role="test" name="pdo_001.a.phpt"/>
     <file role="test" name="pdo_001.b.phpt"/>

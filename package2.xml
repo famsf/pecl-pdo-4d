@@ -16,19 +16,19 @@
     <email>stephane.planquart@o4db.com</email>
     <active>no</active>
   </developer>
-  <date>2009-04-29</date>
+  <date>2009-08-24</date>
   <version>
-    <release>0.2.0</release>
-    <api>0.2.0</api>
+    <release>0.2.1</release>
+    <api>0.2.1</api>
   </version>
   <stability>
-    <release>alpha</release>
-    <api>alpha</api>
+    <release>beta</release>
+    <api>beta</api>
   </stability>
   <license>PHP</license>
   <notes>
-   Added support for timeout, monoquery and 4D 11.4.
-   Developement cycle release.
+Fixed retrieval bug, that made PHP crash when reading too much data.
+Made licence into PHP only. 
   </notes>
     <contents>
         <dir name="/">
@@ -125,10 +125,8 @@
           <file role="doc" name="CREDITS"/>
           <file role="doc" name="EXPERIMENTAL"/>
           <dir name="lib4d_sql">
-            <file role="doc" name="APACHE"/>
             <file role="src" name="base64.c"/>
             <file role="src" name="base64.h"/>
-            <file role="doc" name="BSD"/>
             <file role="src" name="communication.c"/>
             <file role="src" name="fourd.c"/>
             <file role="src" name="fourd.h"/>
@@ -137,8 +135,6 @@
             <file role="src" name="fourd_result.c"/>
             <file role="src" name="fourd_type.c"/>
             <file role="src" name="fourd_type.h"/>
-            <file role="doc" name="GPL"/>
-            <file role="doc" name="LGPL"/>
             <file role="doc" name="LICENSE"/>
             <file role="doc" name="PHP"/>
             <file role="doc" name="ReadMe.txt"/>
