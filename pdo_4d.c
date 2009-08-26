@@ -160,6 +160,7 @@ PHP_MINFO_FUNCTION(pdo_4d)
     );
     php_info_print_table_end();
 
+    php_info_print_table_start();
     php_info_print_table_header(2, "DSN properties" , "default value");
     php_info_print_table_row(2, "host", "localhost");
     php_info_print_table_row(2, "port", "19812");
@@ -171,10 +172,10 @@ PHP_MINFO_FUNCTION(pdo_4d)
     
     DISPLAY_INI_ENTRIES();
     
-	php_info_print_box_start(0);
-	php_printf("This program makes use of the 4D SQL protocol: <br />");
-	php_printf("4D v11 and up, Copyright (c) 2009 4D");
-	php_printf( 
+	  php_info_print_box_start(0);
+	  php_printf("This program makes use of the 4D SQL protocol: <br />");
+	  php_printf("4D v11 and up, Copyright (c) 2009 4D");
+  	php_printf( 
         "<img src=\"%s?=PDO_4D_LOGO_ID\""
         " align=\"right\" alt=\"4D logo\" border=\"0\">", 
         SG(request_info).request_uri ? SG(request_info).request_uri : ""
