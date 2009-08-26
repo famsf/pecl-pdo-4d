@@ -8,7 +8,7 @@ if (!extension_loaded('gd')) die('skip no gd extension');
 
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
 
-die ('skip : 4D n\'accepte pas le format PICTURE, mais fonctionne avec le format BLOB (voir test 009.a)');
+die ('skip : 4D does not support the PICTURE column type, but works with BLOB (see test 009.a)');
 
 PDOTest::skip();
 ?>
