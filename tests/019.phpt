@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: Test de récupération des images 
+PDO_4D: Test getting images (needs a testImage table with an 'image' PICTURE field with at least one reccord)
 --FILE--
 <?php
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';

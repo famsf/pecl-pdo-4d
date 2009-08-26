@@ -1,5 +1,5 @@
 --TEST--
-PDO Common: Reprise apres erreur
+PDO Common: new request after error
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');
@@ -28,14 +28,14 @@ var_dump(@$db->exec('INSERT INTO test values (2,3,4);'));
 
 var_dump($db->exec('INSERT INTO test values (2);'));
 
-$r = $db->prepare("SELECT id FROM test");
+$r = $db->prepare('SELECT id FROM test');
 $r->execute();
 
 $x1 = $r->fetchall();
 
 print_r($x1);
 
-$db->exec('DROP TABLE test');
+$db->exec('DROP TABLE IF EXISTS test');
 
 ?>
 --EXPECT--

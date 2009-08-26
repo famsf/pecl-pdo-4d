@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: stockage des images
+PDO_4D: send/receive jpg image in a picture field
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');
@@ -8,7 +8,7 @@ if (!extension_loaded('gd')) die('skip no gd extension');
 
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
 
-die ('skip : 4D does not support the PICTURE column type, but works with BLOB (see test 009.a)');
+//die ('skip : PDO_4D does not support the PICTURE column type, but works with BLOB (see test 009.a)');
 
 PDOTest::skip();
 ?>
@@ -24,7 +24,7 @@ $text_color = imagecolorallocate($im, 233, 14, 91);
 
 imagestring($im, 1, 5, 5,  "A Simple Test String", $text_color);
 $image_path = "/tmp/test.4d.png";
-imagepng($im,$image_path);
+imagejpeg($im,$image_path);
 
 $db->query('CREATE TABLE test (id INT, img PICTURE )');
 
@@ -41,11 +41,11 @@ $r = @$db->query('SELECT * FROM test');
 $l = $r->fetchall();
 
 $image = file_get_contents($image_path);
-var_dump($l);
+//var_dump($l);
 var_dump($l[0]['img'] == $image);
 
 $db->query('DROP TABLE IF EXISTS test ');
-unlink($image_path);
+//unlink($image_path);
 
 ?>
 --EXPECTF--

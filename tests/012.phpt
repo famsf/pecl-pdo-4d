@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: Pas de support des FLOAT en PHP
+PDO_4D: no FLOAT support in PHP
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

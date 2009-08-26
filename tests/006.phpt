@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: Récupération d'une colonne
+PDO_4D: Fetch a specific column in all records
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

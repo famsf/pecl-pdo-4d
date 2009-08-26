@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: Créations de tables pour chaque type 4D
+PDO_4D: Create table and insert a record with each supported field type 
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

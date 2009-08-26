@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: Comptage de nombres de colonnes
+PDO_4D: insertion of a record with an interger field
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

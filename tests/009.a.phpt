@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: stockage des images
+PDO_4D: send/receive image in a blob field
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

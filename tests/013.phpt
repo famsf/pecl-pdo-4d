@@ -1,5 +1,5 @@
 --TEST--
-PDO Common: Test de la primary key
+PDO Common: Test of primary key
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

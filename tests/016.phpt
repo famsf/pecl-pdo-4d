@@ -1,5 +1,5 @@
 --TEST--
-PDO Common: Récupération d'un FLOAT
+PDO Common: Get rounded value from a FLOAT field
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

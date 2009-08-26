@@ -1,5 +1,5 @@
 --TEST--
-PDO Common: les requêtes multiples sont interdites
+PDO Common: multiple requests are forbiden
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

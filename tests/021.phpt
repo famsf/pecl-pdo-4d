@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: Test de récupération des images 
+PDO_4D: getting images (needs a testImage table with an 'image' PICTURE field with at least one reccord)
 --INI--
 pdo_4d.preferred_image_types = png
 --SKIPIF--

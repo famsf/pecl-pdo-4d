@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: Test de la récupération d'images
+PDO_4D: Get image from PICTURE field (needs a testImage table with an 'image' PICTURE field with at least one reccord)
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');
@@ -22,9 +22,6 @@ PDOTest::skip();
 <?php
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
 $db = PDOTest::test_factory(dirname(__FILE__) . '/common.phpt');
-
-// il faut avoir la table testImage, avec les images deja crées
-//$db->query('CREATE TABLE foobar (id INT)');
 
 $r = $db->query('SELECT * FROM testImage')->fetchAll();
 //var_dump($r);

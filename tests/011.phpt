@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: 4D dans la liste des pilotes PDO
+PDO_4D: 4D in the PDO drivers list
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: Test de connexion
+PDO_4D: connection test
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

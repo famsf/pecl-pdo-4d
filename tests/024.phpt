@@ -1,5 +1,5 @@
 --TEST--
-Grosses tables
+PDO_4D: Big tables
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

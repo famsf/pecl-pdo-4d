@@ -1,5 +1,5 @@
 --TEST--
-PDO 4D: timeout connexoin
+PDO 4D: set/get timeout and preferred_image_types ini values
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip');

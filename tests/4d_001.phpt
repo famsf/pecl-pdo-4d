@@ -1,8 +1,5 @@
 --TEST--
-M_TCS_1
-TOPIC: Unicode
-SUBTOPIC : SQL INSERT - Arrays
-DESCRIPTION: we use text arrays to insert Unicode strings (Japanese, Arabic, German and Hebraic...)
+PDO_4D: Unicode - SQL INSERT - use text arrays to insert Unicode strings (Japanese, Arabic, German and Hebraic...)
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');

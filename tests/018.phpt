@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: Test des jeux de caractères de récupération
+PDO_4D: Test getting text in ISO-8859-1 and UTF-8
 --SKIPIF--
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip');

@@ -1,5 +1,5 @@
 --TEST--
-PDO_4D: test du multi-requete (interdit)
+PDO_4D: multi-request test (forbiden)
 --INI--
 pdo_4d.timeout = 3
 pdo_4d.preferred_image_types = png
