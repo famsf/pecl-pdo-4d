@@ -22,14 +22,15 @@ for ($i = 0;$i < 21; $i++) {
     $l = mb_strlen($data[$i]);
     for($j = 0; $j < 300; $j++) {
     	$field = mb_substr($data[$i],$j,1);//mb_strlen($data[$i])-5);
+    	if ($field + 0 > 0) { continue; }
     	
     	if (empty($field)) { continue;}
 	    $req = "CREATE TABLE X ([$field] INT);";
-    	print "$req\n";
+//    	print "$req\n";
 	    $db->query($req);
 
     	$req = "INSERT INTO X ([$field]) VALUES ($i);";
-	    print "$req\n";
+//	    print "$req\n";
     	$db->query($req);
 
 	    $q = $db->prepare("SELECT [$field] FROM X");
@@ -41,42 +42,112 @@ for ($i = 0;$i < 21; $i++) {
 }
 print_r($x);
 ?>
---EXPECTF--
+--EXPECT--
 Array
 (
     [0] => Array
         (
-            [0] => 1
-            [1] => ok
-            [2] => true
+            [0] => 0
         )
 
     [1] => Array
         (
             [0] => 1
-            [1] => ok
-            [2] => true
         )
 
     [2] => Array
         (
-            [0] => 1
-            [1] => ok
-            [2] => true
+            [0] => 2
         )
 
     [3] => Array
         (
-            [0] => 1
-            [1] => ok
-            [2] => true
+            [0] => 3
         )
 
     [4] => Array
         (
-            [0] => 1
-            [1] => ok
-            [2] => true
+            [0] => 4
+        )
+
+    [5] => Array
+        (
+            [0] => 5
+        )
+
+    [6] => Array
+        (
+            [0] => 6
+        )
+
+    [7] => Array
+        (
+            [0] => 7
+        )
+
+    [8] => Array
+        (
+            [0] => 8
+        )
+
+    [9] => Array
+        (
+            [0] => 9
+        )
+
+    [10] => Array
+        (
+            [0] => 10
+        )
+
+    [11] => Array
+        (
+            [0] => 11
+        )
+
+    [12] => Array
+        (
+            [0] => 12
+        )
+
+    [13] => Array
+        (
+            [0] => 13
+        )
+
+    [14] => Array
+        (
+            [0] => 14
+        )
+
+    [15] => Array
+        (
+            [0] => 15
+        )
+
+    [16] => Array
+        (
+            [0] => 16
+        )
+
+    [17] => Array
+        (
+            [0] => 17
+        )
+
+    [18] => Array
+        (
+            [0] => 18
+        )
+
+    [19] => Array
+        (
+            [0] => 19
+        )
+
+    [20] => Array
+        (
+            [0] => 20
         )
 
 )
