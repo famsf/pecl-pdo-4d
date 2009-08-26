@@ -5,6 +5,9 @@ PDO Common: PDORow + get_parent_class()
 if (!extension_loaded('pdo')) die('skip no PDO');
 if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
 
+die('skip : this is a SQLite Test');
+
+
 if (!extension_loaded('pdo_sqlite')) die ("skip Need PDO_SQlite support");
 
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';

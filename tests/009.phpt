@@ -4,8 +4,11 @@ PDO_4D: stockage des images
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');
 if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
+if (!extension_loaded('gd')) die('skip no gd extension');
 
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+
+die ('skip : 4D n\'accepte pas le format PICTURE, mais fonctionne avec le format BLOB (voir test 009.a)');
 
 PDOTest::skip();
 ?>
@@ -38,6 +41,7 @@ $r = @$db->query('SELECT * FROM test');
 $l = $r->fetchall();
 
 $image = file_get_contents($image_path);
+var_dump($l);
 var_dump($l[0]['img'] == $image);
 
 $db->query('DROP TABLE IF EXISTS test ');

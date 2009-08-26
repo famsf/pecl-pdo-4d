@@ -1,5 +1,23 @@
 --TEST--
-PDO_4D: Testing de la récupération d'images
+PDO_4D: Test de la récupération d'images
+--SKIPIF--
+<?php # vim:ft=php
+if (!extension_loaded('pdo')) die('skip no PDO');
+if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
+if (!extension_loaded('gd')) die('skip gd not available');
+
+$gd_info = gd_info();
+$gd_info['JPEG Support'] = '';
+
+if ($gd_info['JPEG Support'] != 1) &&
+    $gd_info['JPG Support'] != 1) ) 
+            die('skip jpeg not available');
+
+
+require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+
+PDOTest::skip();
+?>
 --FILE--
 <?php
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';

@@ -12,7 +12,7 @@ PDOTest::skip();
 --FILE--
 <?php
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
-$db = PDOTest::test_factory(dirname(__FILE__) . '/connect.inc');
+$db = PDOTest::test_factory(dirname(__FILE__) . '/common.phpt');
 
 	$r = @$db->query('CREATE TABLE test (id INT, x FLOAT)');
 	if ($r == true) {

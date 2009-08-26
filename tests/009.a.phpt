@@ -4,6 +4,7 @@ PDO_4D: stockage des images
 <?php # vim:ft=php
 if (!extension_loaded('pdo')) die('skip no PDO');
 if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
+if (!extension_loaded('gd')) die('skip no gd extension');
 
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
 
@@ -28,9 +29,9 @@ $db->query('CREATE TABLE test (id INT, img BLOB )');
 $image_q = fopen($image_path, "r");
 
 $stmt = $db->prepare('INSERT INTO test VALUES (0, ?)');
-$stmt->bindValue(1,$image_q,PDO::PARAM_LOB);
 //$stmt->bindParam(1, $image_q); 
 
+$stmt->bindValue(1,$image_q,PDO::PARAM_LOB);
 $stmt->execute();
 
 $r = @$db->query('SELECT * FROM test');

@@ -112,7 +112,8 @@ $stmt->bindParam(':val', $val);
 
 foreach($objs as $idx => $obj)
 {
-	$ctype = $ctypes[get_class($obj)];
+    $idx += 0;
+	$ctype = $ctypes[get_class($obj)] + 0;
 	if (method_exists($obj, 'serialize'))
 	{
 		$val = $obj->serialize();
@@ -141,10 +142,10 @@ catch (PDOException $e)
 }
 
 echo "===COUNT===\n";
-var_dump($db->query('SELECT COUNT(*) FROM test JOIN classtypes ON test.classtype=classtypes.id WHERE (classtypes.id IS NULL OR classtypes.id > 0)')->fetchColumn());
+var_dump($db->query('SELECT COUNT(*) FROM test, classtypes WHERE test.classtype=classtypes.id AND (classtypes.id IS NULL OR classtypes.id > 0)')->fetchColumn());
 
 echo "===DATABASE===\n";
-$stmt = $db->prepare('SELECT classtypes.name AS name, test.val AS val FROM test JOIN classtypes ON test.classtype=classtypes.id WHERE (classtypes.id IS NULL OR classtypes.id > 0)');
+$stmt = $db->prepare('SELECT classtypes.name AS name, test.val AS val FROM test, classtypes WHERE test.classtype=classtypes.id AND (classtypes.id IS NULL OR classtypes.id > 0)');
 
 $stmt->execute();
 var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
@@ -194,11 +195,11 @@ array(4) {
   string(172) "a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
 }
 ===FAILURE===
-Exception:SQLSTATE[HY000]: General error: cannot unserialize class
+Exception:SQLSTATE[42601]: Syntax error: 1301 Failed to parse statement.
 ===COUNT===
-string(1) "3"
+string(1) "2"
 ===DATABASE===
-array(3) {
+array(2) {
   [0]=>
   array(2) {
     ["name"]=>
@@ -213,23 +214,14 @@ array(3) {
     ["val"]=>
     string(172) "a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
   }
-  [2]=>
-  array(2) {
-    ["name"]=>
-    NULL
-    ["val"]=>
-    string(172) "a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
-  }
 }
 ===FETCHCLASS===
 TestBase::unserialize(a:3:{s:7:"BasePub";s:6:"Public";s:7:"BasePro";s:9:"Protected";s:7:"BasePri";s:7:"Private";})
 TestDerived::unserialize()
 TestBase::unserialize(a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";})
-TestDerived::unserialize()
-TestBase::unserialize(a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";})
-array(3) {
+array(2) {
   [0]=>
-  object(TestBase)#%d (3) {
+  object(TestBase)#8 (3) {
     ["BasePub"]=>
     string(7) "#Public"
     ["BasePro":protected]=>
@@ -238,22 +230,7 @@ array(3) {
     string(8) "#Private"
   }
   [1]=>
-  object(TestDerived)#%d (6) {
-    ["BasePub"]=>
-    string(14) "#DerivedPublic"
-    ["BasePro":protected]=>
-    string(17) "#DerivdeProtected"
-    ["DerivedPub"]=>
-    string(7) "#Public"
-    ["DerivedPro":protected]=>
-    string(10) "#Protected"
-    ["DerivedPri":"TestDerived":private]=>
-    string(7) "Private"
-    ["BasePri":"TestBase":private]=>
-    string(8) "#Private"
-  }
-  [2]=>
-  object(TestLeaf)#%d (6) {
+  object(TestDerived)#9 (6) {
     ["BasePub"]=>
     string(14) "#DerivedPublic"
     ["BasePro":protected]=>
