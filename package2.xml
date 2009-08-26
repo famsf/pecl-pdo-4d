@@ -16,7 +16,7 @@
     <email>stephane.planquart@o4db.com</email>
     <active>no</active>
   </developer>
-  <date>2009-08-25</date>
+  <date>2009-08-26</date>
   <version>
     <release>0.2.1</release>
     <api>0.2.1</api>
@@ -61,7 +61,9 @@ Made licence into PHP only.
             <file role="test" name="023.phpt"/>
             <file role="test" name="024.phpt"/>
             <file role="test" name="01_pdo_connect.phpt"/>
-            <file role="test" name="0xx_pdo_unicode.phpt"/>
+            <file role="test" name="4d_001.phpt"/>
+            <file role="test" name="4d_002.phpt"/>
+            <file role="test" name="4d_003.phpt"/>
             <file role="test" name="bug_34630.phpt"/>
             <file role="test" name="bug_34687.phpt"/>
             <file role="test" name="bug_35671.phpt"/>
@@ -145,7 +147,6 @@ Made licence into PHP only.
           </dir>
           <file role="src" name="pdo_4d.c"/>
           <file role="src" name="pdo_4d.dsp"/>
-          <file role="src" name="pdo_4d_gen.xml"/>
           <file role="src" name="pdo_4d_logos.h"/>
           <file role="src" name="php_pdo_4d.h"/>
           <file role="src" name="php_pdo_4d_int.h"/>
@@ -173,6 +174,5 @@ Made licence into PHP only.
   </dependencies>
   <providesextension>pdo_4d</providesextension>
   <extsrcrelease/>
-  <changelog>Fixed retrieval bug, that made PHP crash when reading too much data.
-Made licence into PHP only.</changelog>
+  <changelog></changelog>
 </package>

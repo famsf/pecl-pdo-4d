@@ -3,7 +3,8 @@
 <package version="1.0" packagerversion="1.8.1">
  <name>pdo_4d</name>
  <summary>PDO driver for 4D-SQL database</summary>
- <description>PDO_4D is a driver for the PHP Data Objects (PDO) interface to enable access from PHP to 4D databases.</description>
+ <description>PDO_4D is a driver for the PHP Data Objects (PDO) interface to enable access from PHP to 4D databases.
+ </description>
  <maintainers>
   <maintainer>
    <user>fourd</user>
@@ -20,8 +21,8 @@
   </maintainers>
  <release>
   <version>0.2.1</version>
-  <date>2009-08-25</date>
-  <license>PHP</license>
+  <date>2009-08-26</date>
+  <license>PHP License</license>
   <state>beta</state>
   <notes>Fixed retrieval bug, that made PHP crash when reading too much data.
 Made licence into PHP only.
@@ -50,7 +51,6 @@ Made licence into PHP only.
     <file role="src" name="utils.h"/>
    </dir> <!-- /lib4d_sql -->
    <dir name="tests">
-    <file role="test" name="0xx_pdo_unicode.phpt"/>
     <file role="test" name="001.phpt"/>
     <file role="test" name="002.phpt"/>
     <file role="test" name="003.phpt"/>
@@ -78,6 +78,9 @@ Made licence into PHP only.
     <file role="test" name="022.phpt"/>
     <file role="test" name="023.phpt"/>
     <file role="test" name="024.phpt"/>
+    <file role="test" name="4d_001.phpt"/>
+    <file role="test" name="4d_002.phpt"/>
+    <file role="test" name="4d_003.phpt"/>
     <file role="test" name="bug_34630.phpt"/>
     <file role="test" name="bug_34687.phpt"/>
     <file role="test" name="bug_35671.phpt"/>
@@ -144,7 +147,6 @@ Made licence into PHP only.
    <file role="doc" name="EXPERIMENTAL"/>
    <file role="src" name="pdo_4d.c"/>
    <file role="src" name="pdo_4d.dsp"/>
-   <file role="src" name="pdo_4d_gen.xml"/>
    <file role="src" name="pdo_4d_logos.h"/>
    <file role="src" name="php_pdo_4d.h"/>
    <file role="src" name="php_pdo_4d_int.h"/>

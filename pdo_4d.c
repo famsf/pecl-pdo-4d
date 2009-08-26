@@ -22,7 +22,7 @@
   +----------------------------------------------------------------------+
 */
 
-/* $ Id: $ */ 
+/* $Id$ */ 
 
 #include "php_pdo_4d.h"
 #include "php_pdo_4d_int.h"
@@ -148,7 +148,7 @@ PHP_MINFO_FUNCTION(pdo_4d)
     php_info_print_table_header(2, "PDO Driver for 4D" , "enabled");
     php_info_print_table_row(2, "Version", "0.2.1");
     php_info_print_table_row(2, "Status", "Beta");
-    php_info_print_table_row(2, "Build Date", "2009-08-06");
+    php_info_print_table_row(2, "Build Date", "$Date$");
     php_info_print_table_row(2, "Core library", "lib4d_sql 0.2.1 (http://freshmeat.net/projects/lib4d_sql)");
     php_info_print_table_row(2, "Provided by ", 
         "4D (http://www.4d.com), and " 
@@ -158,6 +158,15 @@ PHP_MINFO_FUNCTION(pdo_4d)
         "Alexandre Morgaut (lead), " 
         "Stephane Planquart (developer)"
     );
+    php_info_print_table_end();
+
+    php_info_print_table_header(2, "DSN properties" , "default value");
+    php_info_print_table_row(2, "host", "localhost");
+    php_info_print_table_row(2, "port", "19812");
+    php_info_print_table_row(2, "charset", "UTF-8");
+    php_info_print_table_row(2, "dbname", "");
+    php_info_print_table_row(2, "user", "");
+    php_info_print_table_row(2, "password", "");
     php_info_print_table_end();
     
     DISPLAY_INI_ENTRIES();
