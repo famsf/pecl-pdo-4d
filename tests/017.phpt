@@ -31,5 +31,7 @@ $img = imagecreatefromstring($r[0]['image']);
 var_dump($img);
 
 ?>
+--XFAIL--
+needs a testImage table with an 'image' PICTURE field with at least one reccord
 --EXPECTF--
 resource(8) of type (gd)

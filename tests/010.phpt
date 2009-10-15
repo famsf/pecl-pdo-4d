@@ -27,14 +27,9 @@ fseek($image, 0);
 $stmt = $db->prepare('INSERT INTO testImages2 VALUES (1, ?, "$png")');
 $stmt->bindValue(1,$image,PDO::PARAM_LOB);
 $stmt->execute();
-*/
 
 $r = @$db->query('SELECT * FROM testImage');
 $l = $r->fetchall();
-
-//print_r($l);
-
-//$db->query('DROP TABLE foobar');
 
 function hex2pic($img) {
     $file2 = '';
@@ -48,4 +43,6 @@ function hex2pic($img) {
 }
 
 ?>
+--XFAIL--
+This bug might be still open on pdo_4d 11.3 ; no way to upload picture in 4D ATM.
 --EXPECTF--

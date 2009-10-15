@@ -75,8 +75,8 @@ $db->exec('CREATE TABLE test(id int NOT NULL, classtype int, val VARCHAR(255),  
 
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-var_dump($db->query('SELECT COUNT(*) FROM classtypes')->fetchColumn());
-var_dump($db->query('SELECT id, name FROM classtypes ORDER by id')->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE));
+print_r($db->query('SELECT COUNT(*) FROM classtypes')->fetchColumn());
+print_r($db->query('SELECT id, name FROM classtypes ORDER by id')->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE));
 
 $objs = array();
 $objs[0] = new stdClass;
@@ -100,7 +100,7 @@ foreach($objs as $obj)
 }
 
 echo "===TYPES===\n";
-var_dump($ctypes);
+print_r($ctypes);
 
 unset($stmt);
 
@@ -128,7 +128,7 @@ foreach($objs as $idx => $obj)
 unset($stmt);
 
 echo "===DATA===\n";
-var_dump($db->query('SELECT test.val FROM test')->fetchAll(PDO::FETCH_COLUMN));
+print_r($db->query('SELECT test.val FROM test')->fetchAll(PDO::FETCH_COLUMN));
 
 echo "===FAILURE===\n";
 try
@@ -142,41 +142,35 @@ catch (PDOException $e)
 }
 
 echo "===COUNT===\n";
-var_dump($db->query('SELECT COUNT(*) FROM test, classtypes WHERE test.classtype=classtypes.id AND (classtypes.id IS NULL OR classtypes.id > 0)')->fetchColumn());
+print_r($db->query('SELECT COUNT(*) FROM test, classtypes WHERE test.classtype=classtypes.id AND (classtypes.id IS NULL OR classtypes.id > 0)')->fetchColumn());
 
 echo "===DATABASE===\n";
 $stmt = $db->prepare('SELECT classtypes.name AS name, test.val AS val FROM test, classtypes WHERE test.classtype=classtypes.id AND (classtypes.id IS NULL OR classtypes.id > 0)');
 
 $stmt->execute();
-var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
+print_r($stmt->fetchAll(PDO::FETCH_ASSOC));
 
 echo "===FETCHCLASS===\n";
 $stmt->execute();
-var_dump($stmt->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_CLASSTYPE|PDO::FETCH_SERIALIZE, 'TestLeaf'));
+print_r($stmt->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_CLASSTYPE|PDO::FETCH_SERIALIZE, 'TestLeaf'));
 
 
 ?>
 --EXPECTF--
-string(1) "3"
-array(3) {
-  [0]=>
-  string(8) "stdClass"
-  [1]=>
-  string(8) "TestBase"
-  [2]=>
-  string(11) "TestDerived"
-}
+3Array
+(
+    [0] => stdClass
+    [1] => TestBase
+    [2] => TestDerived
+)
 ===TYPES===
-array(4) {
-  ["stdClass"]=>
-  string(1) "0"
-  ["TestBase"]=>
-  string(1) "1"
-  ["TestDerived"]=>
-  string(1) "2"
-  ["TestLeaf"]=>
-  NULL
-}
+Array
+(
+    [stdClass] => 0
+    [TestBase] => 1
+    [TestDerived] => 2
+    [TestLeaf] => 
+)
 ===INSERT===
 TestBase::serialize() = 'a:3:{s:7:"BasePub";s:6:"Public";s:7:"BasePro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}'
 TestDerived::serialize()
@@ -184,64 +178,53 @@ TestBase::serialize() = 'a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s
 TestDerived::serialize()
 TestBase::serialize() = 'a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}'
 ===DATA===
-array(4) {
-  [0]=>
-  string(0) ""
-  [1]=>
-  string(91) "a:3:{s:7:"BasePub";s:6:"Public";s:7:"BasePro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
-  [2]=>
-  string(172) "a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
-  [3]=>
-  string(172) "a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
-}
+Array
+(
+    [0] => 
+    [1] => a:3:{s:7:"BasePub";s:6:"Public";s:7:"BasePro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}
+    [2] => a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}
+    [3] => a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}
+)
 ===FAILURE===
 Exception:SQLSTATE[42601]: Syntax error: 1301 Failed to parse statement.
 ===COUNT===
-string(1) "2"
-===DATABASE===
-array(2) {
-  [0]=>
-  array(2) {
-    ["name"]=>
-    string(8) "TestBase"
-    ["val"]=>
-    string(91) "a:3:{s:7:"BasePub";s:6:"Public";s:7:"BasePro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
-  }
-  [1]=>
-  array(2) {
-    ["name"]=>
-    string(11) "TestDerived"
-    ["val"]=>
-    string(172) "a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}"
-  }
-}
+2===DATABASE===
+Array
+(
+    [0] => Array
+        (
+            [name] => TestBase
+            [val] => a:3:{s:7:"BasePub";s:6:"Public";s:7:"BasePro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}
+        )
+
+    [1] => Array
+        (
+            [name] => TestDerived
+            [val] => a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";}
+        )
+
+)
 ===FETCHCLASS===
 TestBase::unserialize(a:3:{s:7:"BasePub";s:6:"Public";s:7:"BasePro";s:9:"Protected";s:7:"BasePri";s:7:"Private";})
 TestDerived::unserialize()
 TestBase::unserialize(a:5:{s:7:"BasePub";s:13:"DerivedPublic";s:7:"BasePro";s:16:"DerivdeProtected";s:10:"DerivedPub";s:6:"Public";s:10:"DerivedPro";s:9:"Protected";s:7:"BasePri";s:7:"Private";})
-array(2) {
-  [0]=>
-  object(TestBase)#8 (3) {
-    ["BasePub"]=>
-    string(7) "#Public"
-    ["BasePro":protected]=>
-    string(10) "#Protected"
-    ["BasePri":"TestBase":private]=>
-    string(8) "#Private"
-  }
-  [1]=>
-  object(TestDerived)#9 (6) {
-    ["BasePub"]=>
-    string(14) "#DerivedPublic"
-    ["BasePro":protected]=>
-    string(17) "#DerivdeProtected"
-    ["DerivedPub"]=>
-    string(7) "#Public"
-    ["DerivedPro":protected]=>
-    string(10) "#Protected"
-    ["DerivedPri":"TestDerived":private]=>
-    string(7) "Private"
-    ["BasePri":"TestBase":private]=>
-    string(8) "#Private"
-  }
-}
+Array
+(
+    [0] => TestBase Object
+        (
+            [BasePub] => #Public
+            [BasePro:protected] => #Protected
+            [BasePri:private] => #Private
+        )
+
+    [1] => TestDerived Object
+        (
+            [BasePub] => #DerivedPublic
+            [BasePro:protected] => #DerivdeProtected
+            [DerivedPub] => #Public
+            [DerivedPro:protected] => #Protected
+            [DerivedPri:private] => Private
+            [BasePri:private] => #Private
+        )
+
+)

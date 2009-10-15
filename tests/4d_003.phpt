@@ -20,7 +20,8 @@ $data = file(dirname(__FILE__) . '/test.data');
 $x = array();
 for ($i = 0;$i < 21; $i++) {
     $l = mb_strlen($data[$i]);
-    for($j = 0; $j < 30; $j++) {
+    // don't set the limit too high, for fear to hit the script execution time.
+    for($j = 0; $j < 20; $j++) {
     	$field = mb_substr($data[$i],$j,1);//mb_strlen($data[$i])-5);
 
     	if ($field + 0 > 0) { continue; }

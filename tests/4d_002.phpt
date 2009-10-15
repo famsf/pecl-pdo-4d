@@ -21,8 +21,7 @@ mb_internal_encoding("UTF-8");
 $data = file(dirname(__FILE__) . '/test.data');
 $x = array();
 for ($i = 0;$i < 21; $i++) {
-//	$table = mb_substr($data[$i],0,mb_strlen($data[$i])-5);
-	$table = mb_substr($data[$i],0,5);
+	$table = mb_substr($data[$i],0,3);
 
     $table = str_replace(array('"','('),'', $table);
     if (empty($table)){ continue;}

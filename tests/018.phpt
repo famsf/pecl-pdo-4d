@@ -44,10 +44,10 @@ foreach($charsets as $c) {
 //$db->exec('DROP TABLE test');
 
 ?>
---EXPECT--
-4D:host=localhost;charset=UTF-8
+--EXPECTF--
+4D:host=%s;charset=UTF-8
 bool(true)
 =======
-4D:host=localhost;charset=iso-8859-1
+4D:host=%s;charset=iso-8859-1
 bool(true)
 =======

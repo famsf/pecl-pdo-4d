@@ -47,7 +47,7 @@ $stmt->execute();
 var_dump($stmt->fetchAll(PDO::FETCH_CLASS, 'TestBase'));
 
 $stmt->execute();
-var_dump($stmt->fetchAll(PDO::FETCH_CLASS, 'TestDerived', array(0)));
+print_r($stmt->fetchAll(PDO::FETCH_CLASS, 'TestDerived', array(0)));
 
 ?>
 --EXPECTF--
@@ -85,71 +85,60 @@ array(3) {
   object(TestBase)#5 (3) {
     ["id"]=>
     string(1) "1"
-    ["val":protected]=>
+    ["val:protected"]=>
     string(1) "A"
-    ["val2":"TestBase":private]=>
+    ["val2:private"]=>
     string(2) "AA"
   }
   [1]=>
   object(TestBase)#4 (3) {
     ["id"]=>
     string(1) "2"
-    ["val":protected]=>
+    ["val:protected"]=>
     string(1) "B"
-    ["val2":"TestBase":private]=>
+    ["val2:private"]=>
     string(2) "BB"
   }
   [2]=>
   object(TestBase)#3 (3) {
     ["id"]=>
     string(1) "3"
-    ["val":protected]=>
+    ["val:protected"]=>
     string(1) "C"
-    ["val2":"TestBase":private]=>
+    ["val2:private"]=>
     string(2) "CC"
   }
 }
 TestDerived::__construct(0,1)
 TestDerived::__construct(1,2)
 TestDerived::__construct(2,3)
-array(3) {
-  [0]=>
-  object(TestDerived)#3 (5) {
-    ["row":protected]=>
-    int(0)
-    ["id"]=>
-    string(1) "1"
-    ["val":protected]=>
-    string(1) "A"
-    ["val2":"TestBase":private]=>
-    NULL
-    ["val2"]=>
-    string(2) "AA"
-  }
-  [1]=>
-  object(TestDerived)#4 (5) {
-    ["row":protected]=>
-    int(1)
-    ["id"]=>
-    string(1) "2"
-    ["val":protected]=>
-    string(1) "B"
-    ["val2":"TestBase":private]=>
-    NULL
-    ["val2"]=>
-    string(2) "BB"
-  }
-  [2]=>
-  object(TestDerived)#5 (5) {
-    ["row":protected]=>
-    int(2)
-    ["id"]=>
-    string(1) "3"
-    ["val":protected]=>
-    string(1) "C"
-    ["val2":"TestBase":private]=>
-    NULL
-    ["val2"]=>
-    string(2) "CC"
-  }
-}
+Array
+(
+    [0] => TestDerived Object
+        (
+            [row:protected] => 0
+            [id] => 1
+            [val:protected] => A
+            [val2:private] => 
+            [val2] => AA
+        )
+
+    [1] => TestDerived Object
+        (
+            [row:protected] => 1
+            [id] => 2
+            [val:protected] => B
+            [val2:private] => 
+            [val2] => BB
+        )
+
+    [2] => TestDerived Object
+        (
+            [row:protected] => 2
+            [id] => 3
+            [val:protected] => C
+            [val2:private] => 
+            [val2] => CC
+        )
+
+)
