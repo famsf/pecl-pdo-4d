@@ -10,9 +10,6 @@ PDO for 4D
 --REDIRECTTEST--
 # magic auto-configuration
 
-$config = array(
-	'TESTS' => 'ext/pdo_4d/tests'
-);
 
 if (false !== getenv('PDO_4D_TEST_DSN')) {
 	# user set them from their shell
