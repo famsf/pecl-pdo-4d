@@ -1,8 +1,15 @@
 --TEST--
 PDO_4D: Test getting images (needs a testImage table with an 'image' PICTURE field with at least one reccord)
+--SKIPIF--
+<?php # vim:ft=php
+if (!extension_loaded('pdo')) die('skip no PDO');
+if (!extension_loaded('gd')) die('skip no GD');
+if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
+
+require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+?>
 --FILE--
 <?php
-require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
 $db = PDOTest::test_factory(dirname(__FILE__) . '/common.phpt');
 
 $tests_types = array( array('gif','png'),

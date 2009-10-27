@@ -5,8 +5,10 @@ PDO Common: Bug #36798 (Error parsing named parameters with queries containing h
 if (!extension_loaded('pdo')) die('skip');
 //$dir = getenv('REDIR_TEST_DIR');
 //sif (false == $dir) die('skip no driver');
-require_once $dir . 'pdo_test.inc';
-PDOTest::skip();
+die('skip array parameter bug cast values into string in PDO');
+
+require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
+
 ?>
 --FILE--
 <?php

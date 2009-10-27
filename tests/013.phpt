@@ -30,7 +30,7 @@ $db->exec('CREATE TABLE test(id INT NOT NULL primary key)');
 
 $db->exec('INSERT INTO test values (1)');
 
-$db->exec('DROP TABLE test');
+$db->exec('DROP TABLE IF EXISTS test');
 
 ?>
 --EXPECT--

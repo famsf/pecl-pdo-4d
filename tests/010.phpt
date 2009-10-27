@@ -28,7 +28,7 @@ $stmt = $db->prepare('INSERT INTO testImages2 VALUES (1, ?, "$png")');
 $stmt->bindValue(1,$image,PDO::PARAM_LOB);
 $stmt->execute();
 
-$r = @$db->query('SELECT * FROM testImage');
+$r = @$db->query('SELECT * FROM testImage2');
 $l = $r->fetchall();
 
 function hex2pic($img) {
@@ -41,6 +41,8 @@ function hex2pic($img) {
     
     return $file2;
 }
+
+$db->query('DROP TABLE IF EXISTS testImage2');
 
 ?>
 --XFAIL--

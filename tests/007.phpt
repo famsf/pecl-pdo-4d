@@ -22,7 +22,7 @@ $db->query("INSERT INTO test VALUES ( 'a2','b2','c2')");
 $r = $db->query("SELECT * FROM test");
 var_dump($r->columnCount());
 
-
+$db->query('DROP TABLE IF EXISTS test');
 ?>
 --EXPECTF--
 int(3)

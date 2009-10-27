@@ -6,8 +6,7 @@ if (!extension_loaded('pdo')) die('skip no PDO');
 if (!extension_loaded('pdo_4d')) die('skip no PDO for 4D extension');
 
 require dirname(__FILE__) . '/../../../ext/pdo/tests/pdo_test.inc';
-
-PDOTest::skip();
+//PDOTest::skip();
 ?>
 --FILE--
 <?php
