@@ -16,24 +16,20 @@
     <email>stephane.planquart@o4db.com</email>
     <active>no</active>
   </developer>
-  <date>2009-08-26</date>
+  <date>2009-11-04</date>
   <version>
-    <release>0.2.1</release>
-    <api>0.2.1</api>
+    <release>0.3</release>
+    <api>0.3</api>
   </version>
   <stability>
     <release>beta</release>
     <api>beta</api>
   </stability>
   <license uri="http://www.php.net/license/3_01.txt">PHP License</license>
-  <notes>
-Fixed retrieval bug, that made PHP crash when reading too much data.
-Made licence into PHP only. 
-  </notes>
+  <notes>bug #16759 fixed, unit tests passed, live data use tested</notes>
     <contents>
         <dir name="/">
           <dir name="tests">
-            <file role="test" name="common.phpt"/>
             <file role="test" name="001.phpt"/>
             <file role="test" name="002.phpt"/>
             <file role="test" name="003.phpt"/>
@@ -55,12 +51,13 @@ Made licence into PHP only.
             <file role="test" name="017.phpt"/>
             <file role="test" name="018.phpt"/>
             <file role="test" name="019.phpt"/>
+            <file role="test" name="01_pdo_connect.phpt"/>
+            <file role="test" name="020.a.phpt"/>
             <file role="test" name="020.phpt"/>
             <file role="test" name="021.phpt"/>
             <file role="test" name="022.phpt"/>
             <file role="test" name="023.phpt"/>
             <file role="test" name="024.phpt"/>
-            <file role="test" name="01_pdo_connect.phpt"/>
             <file role="test" name="4d_001.phpt"/>
             <file role="test" name="4d_002.phpt"/>
             <file role="test" name="4d_003.phpt"/>
@@ -78,6 +75,8 @@ Made licence into PHP only.
             <file role="test" name="bug_43139.phpt"/>
             <file role="test" name="bug_43663.phpt"/>
             <file role="test" name="bug_44159.phpt"/>
+            <file role="test" name="common.phpt"/>
+            <file role="test" name="hello_world_gen.phpt"/>
             <file role="test" name="pdo_001.a.phpt"/>
             <file role="test" name="pdo_001.b.phpt"/>
             <file role="test" name="pdo_001.phpt"/>
@@ -88,12 +87,16 @@ Made licence into PHP only.
             <file role="test" name="pdo_006.phpt"/>
             <file role="test" name="pdo_007.phpt"/>
             <file role="test" name="pdo_008.phpt"/>
+            <file role="test" name="pdo_009.phpt"/>
+            <file role="test" name="pdo_010.phpt"/>
             <file role="test" name="pdo_011.phpt"/>
             <file role="test" name="pdo_012.phpt"/>
             <file role="test" name="pdo_013.phpt"/>
+            <file role="test" name="pdo_014.phpt"/>
             <file role="test" name="pdo_015.phpt"/>
             <file role="test" name="pdo_016.phpt"/>
             <file role="test" name="pdo_016a.phpt"/>
+            <file role="test" name="pdo_017.phpt"/>
             <file role="test" name="pdo_018.phpt"/>
             <file role="test" name="pdo_019.phpt"/>
             <file role="test" name="pdo_020.phpt"/>
@@ -120,6 +123,7 @@ Made licence into PHP only.
             <file role="test" name="pecl_bug_5772.phpt"/>
             <file role="test" name="pecl_bug_5809.phpt"/>
             <file role="test" name="test.data"/>
+            <file role="test" name="teste_tests.php"/>
           </dir>
           <file role="src" name="4d_driver.c"/>
           <file role="src" name="4d_statement.c"/>
@@ -153,8 +157,6 @@ Made licence into PHP only.
           <file role="doc" name="README"/>
         </dir>
     </contents>
-
-
   <dependencies>
     <required>
       <php>
