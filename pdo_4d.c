@@ -49,7 +49,7 @@ static unsigned char pdo_4d_logo[] = {
 }; 
 /* }}} */
 /* {{{ pdo_4d_functions[] */
-function_entry pdo_4d_functions[] = {
+zend_function_entry pdo_4d_functions[] = {
 	{ NULL, NULL, NULL }
 };
 /* }}} */
