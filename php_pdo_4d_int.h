@@ -26,7 +26,7 @@
 */
 
 /* $ Id: $ */ 
-#include <fourd.h>
+#include <lib4d_sql/fourd.h>
 #include <ext/mbstring/mbstring.h>
 #define FOURD_CHARSET_SERVEUR "UTF-16LE"
 
@@ -77,5 +77,4 @@ extern struct pdo_stmt_methods fourd_stmt_methods;
 enum {
 	PDO_FOURD_ATTR_CHARSET = PDO_ATTR_DRIVER_SPECIFIC,
 	PDO_FOURD_ATTR_PREFERRED_IMAGE_TYPES,
-	
 };
